@@ -24,7 +24,7 @@ public class K26_FreeWifi2_1 {
 		Connection k26_connection = DriverManager.getConnection("jdbc:mysql://192.168.23.110:33060"
 				+ "/koposw26?serverTimezone=UTC", "root", "qortjf90");
 		
-		/* Connection의 createStatement method로 database에 SQL statment를 보낼 Statement instance를 생성
+		/* Connection의 createStatement method로 database에 SQL statement를 보낼 Statement instance를 생성
 		 * Parameter가 없는 SQL 문은 일반적으로 Statement object를 사용하여 실행된다. */
 		Statement k26_statement = k26_connection.createStatement();
 		
