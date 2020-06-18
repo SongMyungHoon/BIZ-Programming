@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class K26_FreeWifi1_1CreateTable {
+public class K26_FreeWifi2_3CreateTable {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
@@ -32,25 +32,31 @@ public class K26_FreeWifi1_1CreateTable {
 		 *         (2) 알 수없는 SQL 문자열을 동적으로 실행하지 않는 한, 이를 무시할 수 있다.
 		 * 첫번째 결과가 ResultSet object인 경우는 true, 업데이트 횟수이거나 결과가 없는 경우 false를 반환한다.*/
 		k26_statement.execute("create table freewifi("	// freewifi로 테이블 생성
-				+ "  inst_place 		 varchar(50)"	// 설치장소명
-				+ ", inst_place_detail 	 varchar(50)"	// 설치장소 상세
-				+ ", inst_city 			 varchar(50)"	// 설치시도명
-				+ ", inst_country 		 varchar(50)"	// 설치시군구명
-				+ ", inst_place_flag 	 varchar(50)"	// 설치시설구분
-				+ ", service_provider 	 varchar(50)"	// 서비스제공사명
-				+ ", wifi_ssid 			 varchar(50)"	// 와이파이 SSID
-				+ ", inst_date 			 varchar(50)"	// 설치년월 -> 정제할 것
-				+ ", place_addr_road 	 varchar(50)"	// 소재지도로명주소
-				+ ", place_addr_land 	 varchar(50)"	// 소재지지번주소
-				+ ", manage_office 		 varchar(50)"	// 관리기관명
-				+ ", manage_office_phone varchar(50)"	// 관리기관 전화번호
+				+ "  inst_place 		 varchar(29)"	// 설치장소명
+				+ ", inst_place_detail 	 varchar(176)"	// 설치장소 상세
+				+ ", inst_city 			 varchar(7)"	// 설치시도명
+				+ ", inst_country 		 varchar(8)"	// 설치시군구명
+				+ ", inst_place_flag 	 varchar(10)"	// 설치시설구분
+				+ ", service_provider 	 varchar(22)"	// 서비스제공사명
+				+ ", wifi_ssid 			 varchar(74)"	// 와이파이 SSID
+				+ ", inst_date 			 varchar(15)"	// 설치년월 -> 정제할 것
+				+ ", place_addr_road 	 varchar(44)"	// 소재지도로명주소
+				+ ", place_addr_land 	 varchar(40)"	// 소재지지번주소
+				+ ", manage_office 		 varchar(26)"	// 관리기관명
+				+ ", manage_office_phone varchar(13)"	// 관리기관 전화번호
 				+ ", latitude double"					// 위도
 				+ ", longitude double"					// 경도
-				+ ", write_date date);");				// 데이터기준일자
-								 
+				+ ", write_date date"					// 데이터기준일자
+				
+				// 15개 field 모두를 primary key로 지정
+				+ ", PRIMARY KEY(inst_place, inst_place_detail, inst_city, inst_country"
+				+ ", inst_place_flag, service_provider, wifi_ssid, inst_date"
+				+ ", place_addr_road, place_addr_land, manage_office, manage_office_phone"
+				+ ", latitude, longitude, write_date));");				 
+
 		// Statement object의 database 및 JDBC resource을 자동으로 닫을 때까지 기다리지 않고 즉시 해제
 		k26_statement.close();
-				
+						
 		// Connection object의 database 및 JDBC resource을 자동으로 닫을 때까지 기다리지 않고 즉시 해제
 		k26_connection.close();
 	}

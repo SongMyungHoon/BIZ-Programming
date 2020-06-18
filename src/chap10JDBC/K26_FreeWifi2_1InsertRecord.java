@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class K26_FreeWifi2_1 {
+public class K26_FreeWifi2_1InsertRecord {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		
 		/* Class.forName("com.mysql.cj.jdbc.Driver");
@@ -64,20 +64,6 @@ public class K26_FreeWifi2_1 {
 
 		// 파일을 line 단위로 읽은 결과과 null이 아니라면 while 반복
 		while ((k26_readTxt = k26_bufferedReader.readLine()) != null) {
-//			if(k26_readTxt.contains("\"")) {
-//				String[] k26_strManField = k26_readTxt.split("\"");
-//				if(k26_strManField.length >= 3) {
-//					for(int k26_i = 0; k26_i < k26_strManField.length/2; k26_i++) {
-//						k26_strManField[1 + k26_i*2] = k26_strManField[1 + k26_i*2].replace(",", ".");
-//					}
-//				} else {
-//					System.out.println(k26_strManField.length);
-//				}
-//				k26_readTxt = "";
-//				for(int k26_i = 0; k26_i < k26_strManField.length; k26_i++) {
-//					k26_readTxt += k26_strManField[k26_i];
-//				}
-//			}
 			
 			// csv 파일이므로 ","를 구분자로 split한 결과는 각 feild의 값에 해당한다.
 			String[] k26_field = k26_readTxt.split(",");
