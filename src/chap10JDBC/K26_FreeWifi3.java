@@ -33,17 +33,23 @@ public class K26_FreeWifi3 {
 		
 		// Query를 저정할 String 변수 선언
 		String k26_QueryTxt;
-		// k26_latitude, k26_longitude 값에서 가장 가까운 위치에 존재하는 record
-		k26_QueryTxt = String.format("select * from freewifi where " 
-							+ "SQRT(POWER(latitude-%f,2) + POWER(longitude-%f,2)) = "
-							+ "(select MIN(SQRT(POWER(latitude-%f,2) + POWER(longitude-%f,2))) from freewifi);"
-							, k26_latitude, k26_longitude, k26_latitude, k26_longitude);
+		
+		// k26_latitude, k26_longitude 값에서 가장 가까운 위치에 존재하는 record 조회
+//		k26_QueryTxt = String.format("select * from freewifi where " 
+//							// where square root (위도 제곱 + 경도 제곱)
+//							// = MIN(square root (위도 제곱 + 경도 제곱)) (subquery)
+//							// 인 record의 data 출력 
+//							+ "SQRT(POWER(latitude-%f,2) + POWER(longitude-%f,2)) = "
+//							+ "(select MIN(SQRT(POWER(latitude-%f,2) + POWER(longitude-%f,2))) from freewifi);"
+//							, k26_latitude, k26_longitude, k26_latitude, k26_longitude);
+		// 전부 출력하기
+//		k26_QueryTxt = "select * from freewifi;";
 		
 		// 서비스 공급자가 SKT 인 경우의 data를 조회하기 위한 Query
 //		k26_QueryTxt = "select * from freewifi where service_provider='SKT'";
 		
 		// 설치된 도시가 수원시 인 경우의 data를 조회하기 위한 Query
-//		k26_QueryTxt = "select * from freewifi where inst_country='수원시'";
+		k26_QueryTxt = "select * from freewifi where inst_country='수원시'";
 		
 		/* Statement instance의 executeQuery method의 argument로 k26_QueryTxt 를 받아 
 		 * Query를 실행하고 결과를 ResultSet 형태로 반환받는다.*/ 
