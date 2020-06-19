@@ -14,14 +14,14 @@ public class K26_DollarExchange1 {
 		int k26_remain = (int) (k26_myWon - k26_usd * k26_moneyExRate);
 		
 		// Header 부분 출력
-		System.out.printf("*****************************************\n");
-		System.out.printf("*             수수료없이 계산                   *\n");
+		System.out.printf("*******************************************************\n");
+		System.out.printf("*%19s수수료없이 계산%19s*\n"," "," ");
 		
 		// 환전하려고 가져간 원화, 환전한 달러, 잔돈 출력
 		System.out.printf("총 한화환전금액: %d원=> 미화: %d달러, 잔돈: %d원\n"
 				, k26_myWon, k26_usd, k26_remain);
 		
 		// tail부분 출력
-		System.out.printf("*****************************************\n");
+		System.out.printf("*******************************************************\n");
 	}	// main method end
 }	// K26_DollarExchanger1 Class end

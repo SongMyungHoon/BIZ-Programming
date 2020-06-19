@@ -12,13 +12,13 @@ public class K26_TaxCustomerPrice {
 		int k26_taxVal = k26_custom - k26_netVal;	// 세액 = 소비자가 - 세전 가격
 		
 		// Header 부분 출력
-		System.out.printf("*****************************************\n");
-		System.out.printf("*           소비자가 중심 세금 계산                     *\n");
+		System.out.printf("***********************************************\n");
+		System.out.printf("*%11s소비자가 중심 세금 계산%11s*\n"," "," ");
 		
 		// 소비자가격, 세전 가격, 세액 출력
-		System.out.printf(" 소비자가격: %d, 세전가격: %d, 세금: %d\n", k26_custom, k26_netVal, k26_taxVal);
+		System.out.printf(" 소비자가격: %d원, 세전가격: %d원, 세금: %d원\n", k26_custom, k26_netVal, k26_taxVal);
 		
 		// tail부분 출력
-		System.out.printf("*****************************************\n");
+		System.out.printf("***********************************************\n");
 	}	// main method end
 }	// K26_CustomerPrice Class end

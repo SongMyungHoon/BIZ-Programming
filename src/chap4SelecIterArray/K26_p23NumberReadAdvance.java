@@ -4,8 +4,7 @@ public class K26_p23NumberReadAdvance {
 	public static void main(String[] args) {
 		
 		// 읽을 숫자를 저장한다
-		int k26_iNumVal = 1001000000;
-
+		int k26_iNumVal = 1000000000;
 		
 		// 정수형 k26_iNumVal를 String으로 변환한다
 		String k26_sNumVal = String.valueOf(k26_iNumVal);
@@ -56,14 +55,12 @@ public class K26_p23NumberReadAdvance {
 				/* 해당 자리가 0일 땐 단위 값을 안붙이는데 억과 만 자리는 붙인다.
 				 * 이백 사만 이십.. 이백 만 원..
 				 * 억, 만 자리가 아니라면 아무 것도 안함
-				 * 십의자리 이상의 한글 발음을 저장하고 있는 unitX의 index로 
-				 * 가장 큰 수의 자리수부터 넣었을 때 해당 자리수가 "만" 또는 "억"인 경우 */
-				if(k26_unitX[k26_j].equals("만")||k26_unitX[k26_j].equals("억")) {
+				 * 십의 자리 이상의 한글 발음을 저장하고 있는 unitX의 index로 
+				 * 가장 큰 수의 자리 수부터 넣었을 때 해당 자리수가 "만" 또는 "억"인 경우 */
+				if(k26_unitX[k26_j].equals("만") || k26_unitX[k26_j].equals("억")) {
 					
-					/* k26_sNumVal.substring(k26_i, k26_i+1)에서 다음 숫자에 해당하는
-					 * k26_sNumVal.substring(k26_i-1, k26_i)의 숫자가 "0"이 아니라면 */
-					if(!k26_sNumVal.substring(k26_i-1, k26_i).contentEquals("0")) {
-						
+					// k26_sNumVoice의 마지막 글자가 "억"이 아니라면,
+					if(!k26_sNumVoice.endsWith("억")) {
 						// 숫자의 한글 발음을 누적해서 더한 sNumVoice에 "만" 또는 "억"을 더해준다.
 						k26_sNumVoice = k26_sNumVoice + "" + k26_unitX[k26_j];
 					}
@@ -80,12 +77,18 @@ public class K26_p23NumberReadAdvance {
 						+ k26_units[Integer.parseInt(k26_sNumVal.substring(k26_i, k26_i+1))]
 						+ k26_unitX[k26_j];
 			}
+
+			if(k26_sNumVoice.isEmpty()) {
+				// k26_sNumVoice에 값이 아무 것도 저장되지 않으면, "영"을 저장한다.
+				k26_sNumVoice = k26_units[0];
+			}
 			
 			k26_i++; k26_j--;	// 일의 자리는 증가, 십의자리 이상은 감소
 			// 숫자를 읽을 땐 큰 자리수 숫자부터 읽기 때문
 		}
 		
 		// 아라비아 숫자 전체[한글발음 전체]를 화면에 출력한다.
-		System.out.printf("\n %s[%s]\n", k26_sNumVal,k26_sNumVoice);
+		System.out.printf("\n%s[%s]\n", k26_sNumVal,k26_sNumVoice);
+
 	}	// main method end
 }	// K26_p23NumberReadAdvance Class end

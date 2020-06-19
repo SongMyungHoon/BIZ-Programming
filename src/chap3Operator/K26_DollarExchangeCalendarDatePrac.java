@@ -35,17 +35,17 @@ public class K26_DollarExchangeCalendarDatePrac {
 		DecimalFormat k26_dFormat = new DecimalFormat("###,###,###,###,###");
 		
 		// Header 부분 출력
-		System.out.printf("*****************************************\n");
-		System.out.printf("*            콤마찍기, 날짜적용                *\n");
+		System.out.printf("********************************************************************************\n");
+		System.out.printf("*%30s콤마찍기, 날짜적용%30s*\n"," "," ");
 
-		System.out.printf("총 수수료: %s원=> 미화: %s달러, 달러당 수수료: %f원\n"
+		System.out.printf(" 총 수수료: %s원=> 미화: %s달러, 달러당 수수료: %f원\n"
 				, k26_dFormat.format(k26_i_totalCom) // k26_dFormat으로 k26_i_totalCom 값을 출력하도록 지정
 				, k26_dFormat.format(k26_usd)	// k26_dFormat으로 k26_usd 값을 출력하도록 지정
 				, k26_ComPerWon);				// 실수형이므로 DecimalFormat 미사용
 		
 		// 잔돈 계산, 잔돈 = 전체 환전원화 - 달러로 환전한 원화 - 전체 환전 수수료, 실수로 계산 후 버림처리
 		int k26_remain = (int) (k26_myWon - k26_usd * k26_moneyExRate - k26_i_totalCom);
-		System.out.printf("총 한화환전금액: %s원 => 미화: %s달러, 수수료징수:%s원, 잔돈:%s원\n"
+		System.out.printf(" 총 한화환전금액: %s원 => 미화: %s달러, 수수료징수:%s원, 잔돈:%s원\n"
 				, k26_dFormat.format(k26_myWon)		// k26_dFormat으로 k26_myWon 값을 출력하도록 지정
 				, k26_dFormat.format(k26_usd)		// k26_dFormat으로 k26_usd 값을 출력하도록 지정
 				, k26_dFormat.format(k26_i_totalCom)// k26_dFormat으로 k26_i_totalCom 값을 출력하도록 지정
@@ -57,9 +57,9 @@ public class K26_DollarExchangeCalendarDatePrac {
 		SimpleDateFormat k26_simpleDateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		
 		// Calender Class의 getTime method로 System 상 현재 시간을 k26_simpleDateFormat 형태로 출력
-		System.out.printf("최종실행시간: %s\n", k26_simpleDateFormat.format(k26_calTime.getTime()));
+		System.out.printf(" 최종실행시간: %s\n", k26_simpleDateFormat.format(k26_calTime.getTime()));
 		
 		// tail부분 출력
-		System.out.println("*****************************************");
+		System.out.printf("********************************************************************************\n");
 	}	// main method end
 }	// K26_CalendarDatePrac Class end

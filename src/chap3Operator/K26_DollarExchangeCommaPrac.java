@@ -30,8 +30,8 @@ public class K26_DollarExchangeCommaPrac {
 		DecimalFormat k26_dFormat = new DecimalFormat("###,###,###,###,###");
 		
 		// Header 부분 출력
-		System.out.printf("*****************************************\n");
-		System.out.printf("*            콤마찍기, 날짜적용                *\n");
+		System.out.printf("******************************************************************************\n");
+		System.out.printf("*%29s콤마찍기, 날짜적용%29s*\n"," "," ");
 
 		System.out.printf("총 수수료: %s원=> 미화: %s달러, 달러당 수수료: %f원\n"
 				, k26_dFormat.format(k26_i_totalCom)	// k26_dFormat으로 k26_i_totalCom 값을 출력하도록 지정
@@ -47,6 +47,6 @@ public class K26_DollarExchangeCommaPrac {
 				, k26_dFormat.format(k26_remain));	// k26_dFormat으로 k26_remain 값을 출력하도록 지정
 		
 		// tail부분 출력
-		System.out.println("*****************************************");
+		System.out.printf("******************************************************************************\n");
 	}	// main method end
 }	// K26_CommaPrac Class end
