@@ -1,6 +1,4 @@
-package chap4SelecIterArray;
-
-import java.text.DecimalFormat;
+iimport java.text.DecimalFormat;
 
 public class K26_p27SpaceFitting {
 	public static void main(String[] args) {

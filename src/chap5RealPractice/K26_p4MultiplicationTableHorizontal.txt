@@ -1,5 +1,3 @@
-package chap5RealPractice;
-
 public class K26_p4MultiplicationTableHorizontal {
 	public static void main(String[] args) {
 		// 9-9 단 (진행방향: 가로)
