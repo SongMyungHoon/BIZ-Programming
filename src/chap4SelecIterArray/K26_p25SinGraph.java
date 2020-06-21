@@ -2,22 +2,35 @@ package chap4SelecIterArray;
 
 public class K26_p25SinGraph {
 	public static void main(String[] args) {
-		// sin 그래프 그리기
+		// sin 값 계산하기
 		// 360도 : 2pi = 1도 : x
-		double fSin;
-		for(int i = 0; i < 360; i++) {
-			fSin = Math.sin(i * 3.141592 / 180);
-			System.out.printf("%d sin ==>%f\n", i, fSin);
-		}
+		double k26_fSin;	// 계산한 sin 값을 저장할 변수 선언
 		
-		for(int i = 0; i < 360; i++) {
-			fSin = Math.sin(i * 3.141592 / 180);
+		// 0도 ~ 360도 까지 1도 간격으로 sin값 계산
+		for(int k26_i = 0; k26_i < 360; k26_i++) {
+			// i degree = i * pi / 180 radian
+			k26_fSin = Math.sin(k26_i * 3.141592 / 180);
+			// 계산한 sin 값 출력
+			System.out.printf("%d sin ==>%f\n", k26_i, k26_fSin);
+		}	// for loop end
+		
+		/* sin 그래프 그리기
+		 * 0도 ~ 360도 까지 1도 간격으로 sin값 계산 */
+		for(int k26_i = 0; k26_i < 360; k26_i++) {
+			// i degree = i * pi / 180 radian
+			k26_fSin = Math.sin(k26_i * 3.141592 / 180);
 			
-			int iSpace = (int)((1.0 - fSin) * 50);
-			for(int j = 0; j < iSpace; j++) {
+			/* iSpace = -sin + 1 : -sin에 y 절편 +1 shift
+			 * iSpace = iSpace * 50 : 진폭을 50배 증가 시킨다. */
+			int k26_iSpace = (int)((1.0 - k26_fSin) * 50);
+			
+			// 0부터 iSpace까지 공백을 누적해서 추가해 출력, iSpace 값 : x 좌표에 해당
+			for(int k26_j = 0; k26_j < k26_iSpace; k26_j++) {
 				System.out.printf(" ");
-			}
-			System.out.printf("*[%f][%d]\n", fSin, iSpace);
-		}
-	}
-}
+			}	// for loop end
+			
+			// *[fSin][iSpace] 가 point대신 출력되어 sin 그래프를 구성한다.
+			System.out.printf("*[%f][%d]\n", k26_fSin, k26_iSpace);
+		}	// for loop end
+	}	// main method end
+}	// K26_p25SinGraph Class end
