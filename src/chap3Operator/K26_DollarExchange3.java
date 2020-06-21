@@ -30,7 +30,7 @@ public class K26_DollarExchange3 {
 		
 		// Header 부분 출력
 		System.out.printf("***************************************************************************\n");
-		System.out.printf("*%20s수수료 적용환전%20s*\n"," "," ");
+		System.out.printf("*%29s수수료 적용환전%29s*\n"," "," ");
 		
 		// 정수형으로 처리한 전체 환전 수수료, 환전해 받은 달러, 1달러당 환전 수수료를 출력
 		System.out.printf("총 수수료: %d원=> 미화: %d달러, 달러당 수수료: %f원\n"
