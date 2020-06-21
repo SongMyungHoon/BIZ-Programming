@@ -28,7 +28,7 @@ public class K26_p6CalendarPrint {
 				} else {
 					dayCount++;
 					if(dayCount % 7 == 0) {
-						if(dayCount != startDayOfMonth + lastDayOfMonth[month - 1])
+//						if(dayCount != startDayOfMonth + lastDayOfMonth[month - 1])
 							System.out.printf("\n");
 					}
 				}
