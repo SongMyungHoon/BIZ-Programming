@@ -21,7 +21,7 @@ public class K26_p26Phyramid {
 			System.out.printf("\n");
 			
 			k26_m = k26_m - 1;	// while loop 반복될 수록 출력되는 공백 감소
-			k26_n = k26_n + 1;	// while loop 반복될 수록 출력되는 별의 개수 증가
+			k26_n = k26_n + 2;	// while loop 반복될 수록 출력되는 별의 개수 증가
 			
 			/* while loop가 처음 지정한 m값의 회수만큼 반복되면 반복문 종료
 			 * 공백은 더 이상 출력되지 않고, 모든 공백의 자리에 별이 위치함을 의미 */ 

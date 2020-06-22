@@ -1,16 +1,56 @@
 package chap5RealPractice;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class K26_p9EmartReceipt {
 
-	public static void main(String[] args) {
-		String[] itemname = {"초코파이","바나나우유","건포도","오렌지주스","초코에몽"};
-		int[] price = {1000,2500,3300,25000,100};
-		int[] num = {2,4,1,1,10};
-		boolean[] taxfree = {true,true,false,true,true};
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		String[] itemname = {"[19년산] 이맛쌀 20kg","초코파이","바나나우유","건포도","오렌지주스"
+				,"초코에몽","[냉장] 새꼬막살 250g","샐러드로 건강하게 한 끼 식사","허니버터아몬드 210g"
+				,"[국내산] 당찬 사과4~7입/봉","국내산삼겹살구이용100g","블랙앵거스초이스윗등심살 100g"
+				,"니베아 선 프로텍트 앤 라이트 선 세럼 90ml"};
+		int[] price = {49800,1000,2500,3300,25000
+				,100,6980,3980,7480
+				,7980,2380,2600
+				,6900};
+		int[] num = {2,4,1,1,10
+				,15,1,1,1
+				,1,1,1
+				,1};
+		boolean[] taxfree = {true,false,false,true,false
+				,false,true,true,false
+				,true,true,true
+				,false};
+		
+		// 전체 주문 금액	
+		int k26_totalPrice = 0;
+		int taxFreeVal = 0;
+		
+		for(int i = 0; i < price.length; i++) {
+			k26_totalPrice += price[i]*num[i];
+			if(taxfree[i]) {
+				taxFreeVal += price[i]*num[i];
+			}
+		}
+				
+		double k26_taxRate = 0.1;	// 부가세율
+		// 과세액 (= 세전금액) : 버림처리
+		// 34,546
+		double k26_taxation = (int) ((k26_totalPrice - taxFreeVal) / (1 + k26_taxRate));
+		int k26_iTaxation = (int) k26_taxation;
+	
+		double k26_tax = k26_iTaxation * k26_taxRate;	// 부가세액 (항상 올림 처리)
+		int k26_iTax;
+		/* 실수형 전체 환전 수수료 -> 정수로 형변환 -> 다시 실수형으로 형변환 했을 때 
+		 * 원상복귀가 된다는 것은 소수점 이하 숫자가 존재한다는 뜻*/
+		if (k26_tax != (double) ((int) k26_tax)) {	// 소수점 이하 숫자가 있다면
+			k26_iTax = (int) k26_tax + 1;			// 올림 처리해준다.
+		} else {	// 소수점 이하 숫자가 없다면 == 정수
+			k26_iTax = (int) k26_tax;	// 정수형으로 형변환
+		}
 		
 		/* DecimalFormat 클래스는 format method를 사용해 특정 패턴으로 값을 포맷할 수 있다
 		 * 반환값의 type = String, 패턴형식의 지정은 '0', '#'을 사용해서 가능하다.
@@ -45,32 +85,55 @@ public class K26_p9EmartReceipt {
 		/*---------- <BODY> ----------*/
 		for(int i = 0; i < itemname.length; i++) {
 			if(taxfree[i]) {
-				System.out.printf("%02d%-2s",i,"*");
+				System.out.printf("%02d%s",i+1,"*");
 			} else {
-				System.out.printf("%02d%-2s",i," ");	// 총액. 11글자까지
+				System.out.printf("%02d%s",i+1," ");	// 총액. 11글자까지
 			}
-			System.out.printf("%-10s%10s%3.3s%10.10s\n",itemname[i]
+			korPrint(itemname[i]);
+			System.out.printf("%11.11s%3.3s%10.10s\n"
 					, k26_dFormat.format(price[i])	// 단가. 11글자까지
 					, k26_dFormat.format(num[i])	// 수량. 2글자까지
 					, k26_dFormat.format(price[i]*num[i]));	// 총액. 11글자까지
-			
-//			if(itemname[i].getBytes().length == 13) {
-//				System.out.printf("%-14.12s", itemname[i]);
-//			} else {
-//				System.out.printf("%-14.14s", itemname[i]);
-//			}
-//			System.out.printf("%10s", itemname[i]);
-//			System.out.printf("%s%3.3s%10.10s\n"
-//					, k26_dFormat.format(price[i])	// 단가. 11글자까지
-//					, k26_dFormat.format(num[i])	// 수량. 2글자까지
-//					, k26_dFormat.format(price[i]*num[i]));	// 총액. 11글자까지
 		}
+		System.out.printf("%12s(*)면 세  물 품%14s\n"," ",k26_dFormat.format(taxFreeVal));
+		System.out.printf("%15s과 세  물 품%14s\n"," ",k26_dFormat.format(k26_taxation));
+		System.out.printf("%15s부   가   세%14s\n"," ",k26_dFormat.format(k26_iTax));
+		System.out.printf("%15s합%8s계%14s\n"," "," ",k26_dFormat.format(k26_totalPrice));
+		System.out.printf("결 제 대 상 금 액%24s\n",k26_dFormat.format(k26_totalPrice));
 		/*---------- </BODY> ----------*/
 		/*---------- <TAIL> ----------*/
-		
+		System.out.printf("-----------------------------------------\n");
 		/*---------- </TAIL> ----------*/
 
 	}
-//	public static
-
+	public static void korPrint(String itemName) throws UnsupportedEncodingException {
+		int realWidth = itemName.getBytes("EUC-KR").length;
+		System.out.printf("%s",itemName);
+		for(int i = 0; i < 14 - realWidth; i++) {
+			System.out.printf(" ");
+		}
+	}
+	
+	public String cutItemName(String itemName, int byteLen, int sizePerLetter) {
+		int cutLengthCount = 0;
+		int tempSize = 0;
+		if(itemName == null || "".equals(itemName)) {
+			itemName = "";
+		}
+		
+		for(int i = 0; i < itemName.length(); i++) {
+			if(itemName.charAt(i) > 127) {
+				if(byteLen >= tempSize + sizePerLetter) {
+					tempSize += sizePerLetter;
+					cutLengthCount++;
+				}
+			} else {
+				if(byteLen > tempSize) {
+					tempSize++;
+					cutLengthCount++;
+				}
+			}
+		}
+		return itemName.substring(0, cutLengthCount);
+	}
 }

@@ -7,7 +7,7 @@ public class K26_p27SpaceFitting {
 		// 칸 맞추기 실습
 		String k26_item = "사과";	// Item의 이름을 저장할 String 변수
 		int k26_unit_price = 5000;	// Item의 단가를 저장할 int 변수
-		int k26_num = 500;		// Item의 수량을 저장할 int 변수
+		int k26_num = 100;		// Item의 수량을 저장할 int 변수
 		int k26_total = 0;		// Item의 총 가격을 저장할 int 변수
 		
 		/* DecimalFormat 클래스는 format method를 사용해 특정 패턴으로 값을 포맷할 수 있다

@@ -29,13 +29,8 @@ public class K26_p8Receipt2 {
 		double k26_taxRate = 0.1;	// 부가세율
 		// 과세액 (= 세전금액) : 버림처리
 		double k26_taxation = k26_orderPrice / (1 + k26_taxRate);
-		int k26_iTaxation;
-		if (k26_taxation != (double) ((int) k26_taxation)) {	// 소수점 이하 숫자가 있다면
-			k26_iTaxation = (int) k26_taxation + 1;			// 올림 처리해준다.
-		} else {	// 소수점 이하 숫자가 없다면 == 정수
-			k26_iTaxation = (int) k26_taxation;	// 정수형으로 형변환
-		}
-		
+		int k26_iTaxation = (int) k26_taxation;
+				
 		double k26_tax = k26_taxation * k26_taxRate;	// 부가세액 (항상 올림 처리)
 		int k26_iTax;
 		/* 실수형 전체 환전 수수료 -> 정수로 형변환 -> 다시 실수형으로 형변환 했을 때 

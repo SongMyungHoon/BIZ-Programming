@@ -17,13 +17,8 @@ public class K26_p7Receipt1 {
 		double k26_taxRate = 0.1;	// 세율 (10%)
 		int k26_taxFreeVal = 0;		// 면세
 		double k26_taxation = k26_iPrice / (1 + k26_taxRate);	// 과세
-		int k26_iTaxation;	// 세전가격은 항상 버림 처리
-		if (k26_taxation != (double) ((int) k26_taxation)) {	// 소수점 이하 숫자가 있다면
-			k26_iTaxation = (int) k26_taxation + 1;			// 올림 처리해준다.
-		} else {	// 소수점 이하 숫자가 없다면 == 정수
-			k26_iTaxation = (int) k26_taxation;	// 정수형으로 형변환
-		}
-				
+		int k26_iTaxation = (int) k26_taxation;	// 세전가격은 항상 버림 처리
+						
 		// 세액은 항상 올림 처리
 		double k26_tax = k26_iPrice - k26_iTaxation;
 		int k26_iTax;
