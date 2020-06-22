@@ -1,0 +1,30 @@
+public class K26_p26Phyramid {
+
+	public static void main(String[] args) {
+		int k26_n, k26_m; // n : 별의 개수, m : 공백  칸 수
+		k26_m = 20; k26_n = 1;	// 처음 별의 개수 = 1개, 처음 공백 칸 수: 20칸 지정
+		
+		while(true) {	// while의 조건절 = true => 무한 루프
+			// m 값만큼 공백을 출력, 첫 while 반복의 경우 20개의 공백을 출력한다.
+			for(int k26_i = 0; k26_i < k26_m; k26_i++) {
+				System.out.printf(" ");
+			}	// for loop end
+			
+			// n 값만큼 별을 출력, 첫 while 반복의 경우 1개의 별을 출력한다.
+			for(int k26_i = 0; k26_i < k26_n; k26_i++) {
+				System.out.printf("★");
+			}	// for loop end
+			
+			// 별과 공백 출력이 끝나면 줄바꿈해주어 다음 줄에 출력이 이어지도록 한다.
+			System.out.printf("\n");
+			
+			k26_m = k26_m - 1;	// while loop 반복될 수록 출력되는 공백 감소
+			k26_n = k26_n + 1;	// while loop 반복될 수록 출력되는 별의 개수 증가
+			
+			/* while loop가 처음 지정한 m값의 회수만큼 반복되면 반복문 종료
+			 * 공백은 더 이상 출력되지 않고, 모든 공백의 자리에 별이 위치함을 의미 */ 
+			if(k26_m < 0) break;
+			
+		}	// while loop end
+	}	// main method end
+}	// K26_p26Phyramid Class end

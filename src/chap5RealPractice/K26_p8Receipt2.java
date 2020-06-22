@@ -6,53 +6,45 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-class K26_Item {
-	private String k26_name;
-	private String k26_barcode;
-	private int k26_unitPrice;
-	private int k26_amount;
-	
-	public K26_Item(String k26_name, String k26_barcode, int k26_unitPrice, int k26_amount) {
-		this.k26_name = k26_name;
-		this.k26_barcode = k26_barcode;
-		this.k26_unitPrice = k26_unitPrice;
-		this.k26_amount = k26_amount;
-	}
-	public String k26_getName() {
-		return k26_name;
-	}
-	public void k26_setName(String name) {
-		this.k26_name = name;
-	}
-	public String k26_getBarcode() {
-		return k26_barcode;
-	}
-	public void k26_setBarcode(String barcode) {
-		this.k26_barcode = barcode;
-	}
-	public int k26_getUnitPrice() {
-		return k26_unitPrice;
-	}
-	public void k26_setUnitPrice(int unitPrice) {
-		this.k26_unitPrice = unitPrice;
-	}
-	public int k26_getAmount() {
-		return k26_amount;
-	}
-	public void k26_setAmount(int amount) {
-		this.k26_amount = amount;
-	}
-}
-
 public class K26_p8Receipt2 {
 	public static void main(String[] args) {
-		List<K26_Item> k26_itemList = new ArrayList<>();
+		String itemName1, itemName2;	// 항목명
+		String itemCode1, itemCode2;	// 항목코드
+		int price1, price2;		// 단가
+		int num1, num2;			// 수량
+		/*------ item1 Info ------*/
+		itemName1 = "풀무원샘물";		// 항목명
+		itemCode1 = "8809169718205";// 항목코드
+		price1 = 600;	// 단가
+		num1 = 999;		// 수량
+		/*------ item2 Info ------*/
+		itemName2 = "드링킹요구르트(딸기외2종)";	// 항목명
+		itemCode2 = "8801155822828";		// 항목코드
+		price2 = 1600;	// 단가
+		num2 = 999;		// 수량
 		
-		// Item name: "풀무원샘물", barcode: 8809169718205, Unit Price: 600, acount: 1
-		k26_itemList.add(new K26_Item("풀무원샘물", "8809169718205", 600, 1));
+		// 전체 주문 금액	
+		int k26_orderPrice = price1 * num1 + price2 * num2;
+				
+		double k26_taxRate = 0.1;	// 부가세율
+		// 과세액 (= 세전금액) : 버림처리
+		double k26_taxation = k26_orderPrice / (1 + k26_taxRate);
+		int k26_iTaxation;
+		if (k26_taxation != (double) ((int) k26_taxation)) {	// 소수점 이하 숫자가 있다면
+			k26_iTaxation = (int) k26_taxation + 1;			// 올림 처리해준다.
+		} else {	// 소수점 이하 숫자가 없다면 == 정수
+			k26_iTaxation = (int) k26_taxation;	// 정수형으로 형변환
+		}
 		
-		// Item name: "드링킹요구르트(딸기외2종)", barcode: 8801155822828, Unit Price: 1600, acount: 1
-		k26_itemList.add(new K26_Item("드링킹요구르트(딸기외2종)", "8801155822828", 1600, 1));
+		double k26_tax = k26_taxation * k26_taxRate;	// 부가세액 (항상 올림 처리)
+		int k26_iTax;
+		/* 실수형 전체 환전 수수료 -> 정수로 형변환 -> 다시 실수형으로 형변환 했을 때 
+		 * 원상복귀가 된다는 것은 소수점 이하 숫자가 존재한다는 뜻*/
+		if (k26_tax != (double) ((int) k26_tax)) {	// 소수점 이하 숫자가 있다면
+			k26_iTax = (int) k26_tax + 1;			// 올림 처리해준다.
+		} else {	// 소수점 이하 숫자가 없다면 == 정수
+			k26_iTax = (int) k26_tax;	// 정수형으로 형변환
+		}
 		
 		/* DecimalFormat 클래스는 format method를 사용해 특정 패턴으로 값을 포맷할 수 있다
 		 * 반환값의 type = String, 패턴형식의 지정은 '0', '#'을 사용해서 가능하다.
@@ -79,7 +71,7 @@ public class K26_p8Receipt2 {
 		// 결제에 사용된 카드번호 저장
 		String k26_cardNumber = "5522-20**-****-BADD";
 		
-		// 가로 전체 길이 : 42
+		// 가로 전체 길이 : 41
 		/*------------ <HEADER> ------------*/
 		System.out.printf("충주(양평)휴게소\n");
 		System.out.printf("충북충주시가금면용전리380-4\n");
@@ -87,41 +79,50 @@ public class K26_p8Receipt2 {
 		System.out.printf("\n\n");
 		
 		// "[정상등록]현재날짜(YYYYMMdd) 현재시각(HHmmss)    POS번호: 0002" 출력
-		System.out.printf("[정상등록]%s%4sPOS번호: 0002\n"
+		System.out.printf("[정상등록]%s%3sPOS번호: 0002\n"
 				, k26_sdfY4M2d2H2m2s2Space1.format(k26_calTime.getTime())," ");
-		System.out.printf("------------------------------------------\n");
-		System.out.printf("품목코드%15s단가%2s수량%5s금액\n"," "," "," ");
-		System.out.printf("------------------------------------------\n");
+		System.out.printf("-----------------------------------------\n");
+		System.out.printf("품목코드%12s단가%s수량%8s금액\n"," "," "," "); // 8+12+4+1+4+5+4 = 41
+		System.out.printf("-----------------------------------------\n");
 		/*------------ </HEADER> ------------*/
 		/*------------- <BODY> -------------*/
-		// itemList.size() 만큼 반복
-		for(K26_Item k26_item : k26_itemList) {
-			System.out.printf("%s\n",k26_item.k26_getName());
-			System.out.printf("%s%14s%6d%9s\n"
-					,k26_item.k26_getBarcode()
-					,k26_dFormat.format(k26_item.k26_getUnitPrice())
-					,k26_item.k26_getAmount()
-					,k26_dFormat.format(k26_item.k26_getUnitPrice() * k26_item.k26_getAmount()));
-		}
+		// item1의 정보를 출력
+		System.out.printf("%.20s\n", itemName1);	// 물품명 20글자까지 출력
+		// 단가 11글자까지, 수량 5글자까지, 금액 12글자까지
+		System.out.printf("%s%11.11s%5.5s%12.12s\n", itemCode1,k26_dFormat.format(price1)
+				, k26_dFormat.format(num1), k26_dFormat.format(price1 * num1));
+		// item2의 정보를 출력
+		System.out.printf("%.20s\n", itemName2);	// 물품명 20글자까지 출력
+		// 단가 11글자까지, 수량 5글자까지, 금액 12글자까지
+		System.out.printf("%s%11.11s%5.5s%12.12s\n", itemCode2,k26_dFormat.format(price2)
+				, k26_dFormat.format(num2), k26_dFormat.format(price2 * num2));
 		System.out.printf("\n");
-		System.out.printf("과세 물품 합계%28s\n", k26_dFormat.format(2000)); // 42 - 14 = 28
-		System.out.printf("부%4s가%4s세%28s\n"," ", " ", k26_dFormat.format(200)); // 42 - 14 = 28
-				System.out.printf("합%10s계%28s\n", " ", k26_dFormat.format(2200));
-		System.out.printf("026-비씨카드사%28s\n","00/00A");
-		System.out.printf("카%2s드%2s번%2s호 :%26s\n"," "," "," ",k26_cardNumber);
-		System.out.printf("카%2s드%2s매%2s출 :%26s\n"," "," "," ",k26_dFormat.format(2200));
-		System.out.printf("거%2s래%2s구%2s분 :%23s\n"," "," "," ","일시불");
-		System.out.printf("승%2s인%2s번%2s호 : 04-KICC%18d\n"," "," "," ",75549250);
+		// 과세 27 글자까지 출력
+		System.out.printf("과세 물품 합계%27.27s\n", k26_dFormat.format(k26_iTaxation)); // 41 - 14 = 27
+		// 부가세액 27 글자까지
+		System.out.printf("부%4s가%4s세%27.27s\n"," ", " ", k26_dFormat.format(k26_iTax)); // 41 - 14 = 27
+		// 전체합계 27 글자까지
+		System.out.printf("합%10s계%27.27s\n", " ", k26_dFormat.format(k26_orderPrice));
+		System.out.printf("026-비씨카드사%27.27s\n","00/00A");
+		System.out.printf("카%2s드%2s번%2s호 :%25.25s\n"," "," "," ",k26_cardNumber);	// 카드번호 25글자까지
+		// 25 글자까지 출력
+		System.out.printf("카%2s드%2s매%2s출 :%25.25s\n"," "," "," ",k26_dFormat.format(k26_orderPrice));
+		System.out.printf("거%2s래%2s구%2s분 :%22.22s\n"," "," "," ","일시불");
+		System.out.printf("승%2s인%2s번%2s호 : 04-KICC%17d\n"," "," "," ",75549250);
 		System.out.printf("가 맹 점 번 호 :\n");
-		System.out.printf("받%2s은%2s금%2s액 :%26s\n"," "," "," ",k26_dFormat.format(2200));
-		System.out.printf("거%4s스%4s름 :%26s\n"," "," ",k26_dFormat.format(0));
+		// 전체 받은 금액 25 글자까지 출력 가능
+		System.out.printf("받%2s은%2s금%2s액 :%25.25s\n"," "," "," ",k26_dFormat.format(k26_orderPrice));
+		System.out.printf("거%4s스%4s름 :%25.25s\n"," "," ",k26_dFormat.format(0));
 		/*------------- </BODY> -------------*/
 		/*------------- <TAIL> -------------*/
-		System.out.printf("------------------------------------------\n");
-		System.out.printf("주문번호:%12s\n","0920");
-		System.out.printf("------------------------------------------\n");
+		System.out.printf("-----------------------------------------\n");
+		System.out.printf("주문번호:%11.11s\n","0920");
+		System.out.printf("-----------------------------------------\n");
+		// %02d : 정수를 포함하여 2칸의 공간을 확보. 빈 공간은 0으로 채운다
 		System.out.printf("판매원 : %06d %s\n",2,"편의점2");
+		// "현재날짜(2020/06/22)-0002-0922" 출력
 		System.out.printf("%s-0002-0922\n",k26_sdfY4M2d2.format(k26_calTime.getTime()));
+		// "연동모듈:[00138705  현재날짜및시간(20200622135306)]" 출력
 		System.out.printf("연동모듈:[00138705%2s%s]\n"," ",k26_sdfY4M2d2H2m2s2Space0.format(k26_calTime.getTime()));
 		/*------------- </TAIL> -------------*/
 	}
