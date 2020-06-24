@@ -7,20 +7,21 @@ import java.util.Calendar;
 public class K26_p7Receipt1 {
 
 	public static void main(String[] args) {
-		int k26_iPrice = 1245612;	// 주문 합계
+		int k26_iPrice = 11;	// 주문 합계
 		int k26_discountVal = 0;	// 할인 금액
 		int k26_point = 0;			// 포인트
 		
 		int k26_cash = 0;			// 현금
 		int k26_card = k26_iPrice;	// 카드
 		
-		double k26_taxRate = 0.1;	// 세율 (10%)
-		int k26_taxFreeVal = 0;		// 면세
-		double k26_taxation = k26_iPrice / (1 + k26_taxRate);	// 과세
+		double k26_taxRate = 10;	// 세율 (10 %)
+		int k26_taxFreeVal = 0;		// 면세 총액
+		// 과세액, 부동 소수점 문제 해결
+		double k26_taxation = k26_iPrice / (100 + k26_taxRate) * 100;
 		int k26_iTaxation = (int) k26_taxation;	// 세전가격은 항상 버림 처리
 						
 		// 세액은 항상 올림 처리
-		double k26_tax = k26_iPrice - k26_iTaxation;
+		double k26_tax = k26_iTaxation * k26_taxRate/100;
 		int k26_iTax;
 		/* 실수형 전체 환전 수수료 -> 정수로 형변환 -> 다시 실수형으로 형변환 했을 때 
 		 * 원상복귀가 된다는 것은 소수점 이하 숫자가 존재한다는 뜻*/

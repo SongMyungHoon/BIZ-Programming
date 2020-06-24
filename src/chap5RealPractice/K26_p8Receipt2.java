@@ -16,22 +16,23 @@ public class K26_p8Receipt2 {
 		itemName1 = "풀무원샘물";		// 항목명
 		itemCode1 = "8809169718205";// 항목코드
 		price1 = 600;	// 단가
-		num1 = 999;		// 수량
+		num1 = 1;		// 수량
 		/*------ item2 Info ------*/
 		itemName2 = "드링킹요구르트(딸기외2종)";	// 항목명
 		itemCode2 = "8801155822828";		// 항목코드
 		price2 = 1600;	// 단가
-		num2 = 999;		// 수량
+		num2 = 1;		// 수량
 		
 		// 전체 주문 금액	
 		int k26_orderPrice = price1 * num1 + price2 * num2;
 				
-		double k26_taxRate = 0.1;	// 부가세율
-		// 과세액 (= 세전금액) : 버림처리
-		double k26_taxation = k26_orderPrice / (1 + k26_taxRate);
+		double k26_taxRate = 10;	// 부가세율 10 %
+		// 과세액 (= 세전금액) : 버림처리, 부동 소수점 문제 해결
+		double k26_taxation = (k26_orderPrice / (100 + k26_taxRate))*100;
 		int k26_iTaxation = (int) k26_taxation;
-				
-		double k26_tax = k26_taxation * k26_taxRate;	// 부가세액 (항상 올림 처리)
+		
+		double k26_tax = k26_iTaxation * k26_taxRate/100;	// 부가세액 (항상 올림 처리)
+
 		int k26_iTax;
 		/* 실수형 전체 환전 수수료 -> 정수로 형변환 -> 다시 실수형으로 형변환 했을 때 
 		 * 원상복귀가 된다는 것은 소수점 이하 숫자가 존재한다는 뜻*/
@@ -51,7 +52,7 @@ public class K26_p8Receipt2 {
 		
 		Calendar k26_calTime = Calendar.getInstance();	// System의 현재 시간을 얻기 위한 Calendar instance 생성
 		
-		/* "YYYYMMdd HHmmss" 형식으로 date를 출력하기 위한 
+		/* "YYYYMMdd HHmmss" 형식으로 date를 출력하기 위한
 		 * SimpleDateFormat class의 instance, sdfY4M2d2H2m2s2Space1 생성 */
 		SimpleDateFormat k26_sdfY4M2d2H2m2s2Space1 = new SimpleDateFormat("YYYYMMdd HHmmss");
 		
