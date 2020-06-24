@@ -21,40 +21,22 @@ public class K26_p9EmartReceipt {
 				,"유한락스 레귤러 3.5L","다우니 고농축 섬유유연제 엑스퍼트 2L","LG생활건강 테크 울드라이 1.3L 리필"};// 3
 		
 		// itemname의 요소에 대응되는 물품의 가격을 저장하는 int Array
-		int[] k26_price
-			= {49800,1000,2500,3300,25000
-				,100,6980,3980,7480
-				,7980,2380,2600
-				,6900,3280,3280
-				,2680,2780,2980
-				,4990,2580,5980
-				,1280,1280,800
-				,7900,3980,9500
-				,5930,10900,3900};
+		int[] k26_price // 7480
+			= {49800,1000,2500,3300,25000,100,6980,3980,10000000,7980
+				,2380,2600,6900,3280,3280,2680,2780,2980,4990,2580
+				,5980,1280,1280,800,7900,3980,9500,5930,10900,3900};
 		
 		// itemname의 요소에 대응되는 물품의 수량을 저장하는 int Array
 		int[] k26_num 
-			= {2,4,1,1,2
-				,15,1,1,1
-				,1,1,1
-				,1,1,1
-				,1,1,1
-				,1,1,1
-				,1,1,1
-				,1,1,1
-				,1,1,1};
+			= {2,4,1,1,2,15,1,1,1,1
+				,1,1,1,1,1,1,1,1,1,1
+				,1,1,1,1,1,1,1,1,1,1};
 		
 		// itemname의 요소에 대응되는 물품의 면세 여부를 저장하는 boolean Array
 		boolean[] k26_taxfree 
-			= {true,false,false,true,false
-					,false,true,true,false
-					,true,true,true
-					,false,false,false
-					,false,false,false
-					,true,true,true
-					,true,true,false
-					,false,false,false
-					,false,false,false};
+			= {true,false,false,true,false,false,true,true,false,true
+				,true,true,false,false,false,false,false,false,true,true
+				,true,true,true,false,false,false,false,false,false,false};
 		
 		// k26_totalPrice : 전체 주문 금액	
 		int k26_totalPrice = 0;
@@ -75,7 +57,8 @@ public class K26_p9EmartReceipt {
 		double k26_taxRate = 10;
 		/* 과세액 (= 세전금액) : 버림처리 
 		 * 과세액 = 전체금액 - 면세금액, 부동소수점 문제 해결 */
-		int k26_taxation = (int) ((k26_totalPrice - k26_taxFreeVal) / (100 + k26_taxRate))*100;
+		double k26_taxation = ((k26_totalPrice - k26_taxFreeVal) / (100 + k26_taxRate))*100;
+		int k26_iTaxation = (int) k26_taxation;
 	
 		double k26_tax = k26_taxation * k26_taxRate/100;	// 부가세액 (항상 올림 처리)
 		int k26_iTax;	// 부가세액을 올림 처리하여 int 형 변수로 저장하기 위한 변수 선언
@@ -116,7 +99,7 @@ public class K26_p9EmartReceipt {
 				, k26_sdfY4M2d2H2m2Space1Hyphen.format(k26_calTime.getTime())	
 				, " ",9);
 		System.out.printf("------------------------------------------\n");
-		System.out.printf("%3s상 품 명%8s단  가%3s수량%3s금  액\n"," "," "," "," ");
+		System.out.printf("%3s상 품 명%8s단  가%3s수량%4s금  액\n"," "," "," "," ");
 		System.out.printf("------------------------------------------\n");
 		/*---------- </HEADER> ----------*/
 		
@@ -126,38 +109,29 @@ public class K26_p9EmartReceipt {
 		for(int k26_i = 0; k26_i < k26_itemname.length; k26_i++) {
 			if(k26_taxfree[k26_i]) {
 				// 면세 대상 물품인 경우 * 포함해서 출력
-				if(k26_i < 100) {	// 출력 물품 개수가 100개 미만인 경우
-					// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
-					System.out.printf("%03d%-2s",k26_i + 1,"*");
-				} else if(k26_i >= 100) {	// 출력 물품 개수가 100개 이상인 경우
-					// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
-					System.out.printf("%d%-2s",k26_i + 1,"*");
-				}
+				// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
+				System.out.printf("%02d%-2s",k26_i + 1, "*");
 			} else {
 				// 면세 대상이 아닌 경우 공백 포함해서 출력
-				if(k26_i < 100) {	// 출력 물품 개수가 100개 미만인 경우
-					// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
-					System.out.printf("%03d%-2s",k26_i + 1," ");
-				} else if(k26_i >= 100) {	// 출력 물품 개수가 100개 이상인 경우
-					// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
-					System.out.printf("%d%-2s",k26_i + 1," ");
-				}
+				// k26_i가 0부터 시작하므로,출력 번호는 k26_i + 1
+				System.out.printf("%02d%-2s",k26_i + 1, " ");
 			}
 			
 			/* 물품 이름에 한글이 포함된 경우, 한글과 한글 외 문자를 구분하여 
 			 * 바이트 크기 제한에 맞추어 문자를 잘라 출력해주는 method */ 
 			k26_korPrint(k26_itemname[k26_i], k26_limitLength);
 			
-			System.out.printf("%10.10s%3.3s%10.10s\n"
+			System.out.printf("%11.11s%3.3s%10.10s\n"
 					, k26_dFormat.format(k26_price[k26_i])	// 단가를 3자리마다 콤마 넣어서 출력
 					, k26_dFormat.format(k26_num[k26_i])	// 수량을 3자리마다 콤마 넣어서 출력
 					// 품목 계산 총액을 3자리마다 콤마 넣어서 출력
-					, k26_dFormat.format(k26_price[k26_i]*k26_num[k26_i]));	
+					, k26_dFormat.format(k26_price[k26_i]*k26_num[k26_i]));
+			
 		}	// for loop end
 		// 면세액 총합을 의미하는 k26_taxFreeVal을 3글자씩 콤마로 구분하여 출력
 		System.out.printf("%12s(*)면 세  물 품%15s\n"," ",k26_dFormat.format(k26_taxFreeVal));
 		// 과세물품 가격 총합을 의미하는 k26_taxFreeVal을 3글자씩 콤마로 구분하여 출력
-		System.out.printf("%15s과 세  물 품%15s\n"," ",k26_dFormat.format(k26_taxation));
+		System.out.printf("%15s과 세  물 품%15s\n"," ",k26_dFormat.format(k26_iTaxation));
 		// 부가세액 총합을 의미하는 k26_taxFreeVal을 3글자씩 콤마로 구분하여 출력
 		System.out.printf("%15s부   가   세%15s\n"," ",k26_dFormat.format(k26_iTax));
 		// 전체 합계를 의미하는 k26_totalPrice를 3글자씩 콤마로 구분하여 출력
