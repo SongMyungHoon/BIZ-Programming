@@ -2,25 +2,46 @@ package chap7StringByteSBArrayArrayList;
 
 public class K26_p30OneRec {
 	
-	private int student_id;
-	private String name;
-	private int kor;
-	private int eng;
-	private int mat;
+	private int k26_student_id;
+	private String k26_name;
+	private int k26_kor;
+	private int k26_eng;
+	private int k26_mat;
 	
-	public K26_p30OneRec(int student_id, String name, int kor, int eng, int mat) {
-		this.student_id = student_id;
-		this.name = name;
-		this.kor = kor;
-		this.eng = eng;
-		this.mat = mat;
+	public K26_p30OneRec(int student_id, String k26_name
+			, int k26_kor, int k26_eng, int k26_mat) {
+		this.k26_student_id = student_id;
+		this.k26_name = k26_name;
+		this.k26_kor = k26_kor;
+		this.k26_eng = k26_eng;
+		this.k26_mat = k26_mat;
 	}
 	
-	public int student_id() {return this.student_id;};
-	public String name() {return this.name;};
-	public int kor() {return this.kor;};
-	public int eng() {return this.eng;};
-	public int mat() {return this.mat;};
-	public int sum() {return this.kor + this.eng + this.mat;};
-	public double ave() {return this.sum()/3.0;};
+	public int k26_student_id() {
+		return this.k26_student_id;
+	};
+	
+	public String k26_name() {
+		return this.k26_name;
+	};
+	
+	public int k26_kor() {
+		return this.k26_kor;
+	};
+	
+	public int k26_eng() {
+		return this.k26_eng;
+	};
+	
+	public int k26_mat() {
+		return this.k26_mat;
+	};
+	
+	public int k26_sum() {
+		return this.k26_kor + this.k26_eng + this.k26_mat;
+	};
+	
+	public double k26_ave() {
+		return this.k26_sum()/3.0;
+	};
 }

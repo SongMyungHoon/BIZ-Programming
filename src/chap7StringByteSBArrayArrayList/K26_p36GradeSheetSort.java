@@ -1,9 +1,13 @@
 package chap7StringByteSBArrayArrayList;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class K26_p33GradeSheet {
+public class K26_p36GradeSheetSort {
+
 	static ArrayList<K26_p30OneRec> k26_ArrayOneRec = new ArrayList<>();
 	static int k26_pageSumKor = 0;
 	static int k26_pageSumEng = 0;
@@ -19,6 +23,7 @@ public class K26_p33GradeSheet {
 	
 	public static void main(String[] args) {
 		k26_dataSet();
+		k26_dataSort();
 		int k26_numCount = 0;
 		int k26_page = 1;
 		boolean k26_whileIteration = true;
@@ -60,6 +65,22 @@ public class K26_p33GradeSheet {
 				System.out.printf("\n");
 			}
 		}
+	}
+	
+	public static void k26_dataSort() {
+		// 비교 기준에 사용할 Comparator type class를 익명 클래스로 생성 (anonymous class)
+		Comparator<K26_p30OneRec> k26_criteriaForComparison = new Comparator<K26_p30OneRec>() {
+			// 총점 (sum())을 기준으로 sort하는 경우
+			public int compare(K26_p30OneRec k26_record1, K26_p30OneRec k26_record2) {
+				/* 문자형 비교의 경우
+				 * return (String.valueOf(record1.sum().compareTo(String.valueOf(record2.sum())); 
+				 * */
+				return (k26_record2.k26_sum() - k26_record1.k26_sum());
+			}
+		};
+		/* 설정한 내용대로 정렬 (sort)
+		 * 반대차순 정렬의 경우, Collections.reserse(ArrayOneRec); */ 
+		Collections.sort(k26_ArrayOneRec, k26_criteriaForComparison);
 	}
 	
 	// 데이터 만들기
