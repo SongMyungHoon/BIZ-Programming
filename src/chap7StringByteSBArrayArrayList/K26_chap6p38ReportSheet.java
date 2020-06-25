@@ -1,6 +1,5 @@
 package chap7StringByteSBArrayArrayList;
 
-
 class InputData {
 	String[] name;
 	int[] id;
