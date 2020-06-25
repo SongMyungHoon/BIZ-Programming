@@ -5,14 +5,31 @@ import java.io.UnsupportedEncodingException;
 public class K26_p10KorCalc {
 
 	public static void main(String[] args) throws UnsupportedEncodingException {
+		
+		// "한글abcd" 를 15바이트 길이에 맞춰 문자열 앞에 공백을 추가해 출력
+		// "HanBlankForeword[       한글abcd]"
 		System.out.printf("HanBlankForeword[%s]\n", k26_HanBlankForeword("한글abcd", 15));
+		
+		// "한글한글aa" 를 15바이트 길이에 맞춰 문자열 앞에 공백을 추가해 출력
+		// "HanBlankForeword[     한글한글aa]"
 		System.out.printf("HanBlankForeword[%s]\n", k26_HanBlankForeword("한글한글aa", 15));
+		
+		// "한글aa" 를 15바이트 길이에 맞춰 문자열 뒤에 공백을 추가해 출력
+		// "HanBlankBackword[한글aa         ]"
 		System.out.printf("HanBlankBackword[%s]\n", k26_HanBlankBackword("한글aa", 15));
+		
+		// "한글한글aa" 를 15바이트 길이에 맞춰 문자열 뒤에 공백을 추가해 출력
+		// "HanBlankBackword[한글한글aa     ]"
 		System.out.printf("HanBlankBackword[%s]\n", k26_HanBlankBackword("한글한글aa", 15));
+		
+		// "한글한글aa" 에 포함된 한글의 수를 출력(4)
+		// "한글은 [4]개"
 		System.out.printf("한글은 [%d]개\n", k26_HanCount("한글한글aa"));
 	}
 	
-	public static String k26_HanBlankForeword(String k26_string, int k26_limitByte) throws UnsupportedEncodingException {
+	public static String k26_HanBlankForeword(String k26_string, int k26_limitByte)
+			throws UnsupportedEncodingException {
+		// method 수행 결과 return할 문자열을 저장할 String 변수
 		String k26_result = "";
 		
 		// 특정 String의 byte를 count하기 위한 정수형 변수
@@ -58,9 +75,11 @@ public class K26_p10KorCalc {
 		k26_stringBuilder.append(k26_result);
 		// 최종 완성된 String을 StringBuilder.toString()으로 반환한다.
 		return k26_stringBuilder.toString();
-	}
+	}	// k26_HanBlankForeword method end
 	
-	public static String k26_HanBlankBackword(String k26_string, int k26_limitByte) throws UnsupportedEncodingException {
+	public static String k26_HanBlankBackword(String k26_string, int k26_limitByte)
+			throws UnsupportedEncodingException {
+		// method 수행 결과 return할 문자열을 저장할 String 변수
 		String k26_result = "";
 		
 		// 특정 String의 byte를 count하기 위한 정수형 변수
@@ -107,10 +126,11 @@ public class K26_p10KorCalc {
 		
 		// 최종 완성된 String을 StringBuilder.toString()으로 반환한다.
 		return k26_stringBuilder.toString();
-	}
+	}	// k26_HanBlankBackword method end
 
-	public static int k26_HanCount(String k26_string) throws UnsupportedEncodingException {
-		
+	public static int k26_HanCount(String k26_string)
+			throws UnsupportedEncodingException {
+		// 한글의 수 = 전체 String의 바이트 수 - 전체 String의 length
 		return (k26_string.getBytes("EUC-KR").length - k26_string.length());
-	}
+	}	// k26_HanCount method end
 }
