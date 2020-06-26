@@ -100,7 +100,7 @@ public class K26_p33GradeSheet {
 		int k26_page = 1;		// page 수를 count할 int형 변수 선언
 		boolean k26_whileIteration = true;	// while문 반복 조건
 		int k26_forIterationLimit = 0;		// for문 반복 횟수
-		int k26_numberPerPage = 1;			// page 당 출력되는 학생 수
+		int k26_numberPerPage = 30;			// page 당 출력되는 학생 수
 		
 		// while문의 조건절에 true 들어감 : 무한 루프
 		while(k26_whileIteration) {

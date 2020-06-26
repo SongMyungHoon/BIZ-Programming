@@ -2,9 +2,7 @@ package chap5RealPractice;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class K26_p8Receipt2 {
 	public static void main(String[] args) {

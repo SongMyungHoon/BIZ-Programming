@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat.*;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,7 +57,7 @@ public class K26_FreeWifi2_4InsertRecord {
 			
 			// 빈 파일이라는 것을 console에 표준출력하고
 			System.out.println("빈 파일입니다");
-			
+			k26_bufferedReader.close();
 			// 프로그램 종료
 			return;
 		}	// if end

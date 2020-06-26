@@ -103,7 +103,7 @@ public class K26_p36GradeSheetSort {
 		int k26_page = 1;		// page 수를 count할 int형 변수 선언
 		boolean k26_whileIteration = true;	// while문 반복 조건
 		int k26_forIterationLimit = 0;		// for문 반복 횟수
-		int k26_numberPerPage = 1;			// page 당 출력되는 학생 수
+		int k26_numberPerPage = 30;			// page 당 출력되는 학생 수
 		
 		// while문의 조건절에 true 들어감 : 무한 루프
 		while(k26_whileIteration) {
@@ -164,19 +164,20 @@ public class K26_p36GradeSheetSort {
 		Comparator<K26_p36OneRec> k26_criteriaForComparison = new Comparator<K26_p36OneRec>() {
 			
 			// 총점 (sum())을 기준으로 sort하는 경우
+			@Override
 			public int compare(K26_p36OneRec k26_record1, K26_p36OneRec k26_record2) {
 				
 				/* 문자형 비교의 경우
 				 * return (String.valueOf(record1.sum().compareTo(String.valueOf(record2.sum())); 
 				 * */
 				return (k26_record2.k26_sum() - k26_record1.k26_sum());
-			}
-		};
+			}	// compare method end
+		};	// k26_criteriaForComparison anonymous class end
 		
 		/* 설정한 내용대로 정렬 (sort)
 		 * 반대차순 정렬의 경우, Collections.reserse(ArrayOneRec); */ 
 		Collections.sort(k26_ArrayOneRec, k26_criteriaForComparison);
-	}
+	}	// k26_dataSort method end
 	
 	// 데이터 만들기
 	public static void k26_dataSet() {

@@ -96,7 +96,7 @@ public class K26_p35ArrayListSorting {
 			k26_ItemPrint(k26_i);	// BODY 출력
 		}
 		k26_TailPrint();	// TAIL 출력
-	}
+	}	// main method end
 	
 	public static void k26_dataSort() {
 		
@@ -109,8 +109,9 @@ public class K26_p35ArrayListSorting {
 				 * return (String.valueOf(record1.sum().compareTo(String.valueOf(record2.sum())); 
 				 * */
 				return (k26_record2.k26_sum() - k26_record1.k26_sum());
-			}
-		};
+			}	// compare method end
+		};	// k26_criteriaForComparison anonymous class end
+
 		/* 설정한 내용대로 정렬 (sort)
 		 * 반대차순 정렬의 경우, Collections.reserse(ArrayOneRec); */ 
 		Collections.sort(k26_ArrayOneRec, k26_criteriaForComparison);
