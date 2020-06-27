@@ -5,34 +5,34 @@ import java.io.*;
 public class K26_p10L07 {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
+		String k26_filePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
 				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
 				+ "THTSKS010H00.dat";
-		File f = new File(filePath);
-		BufferedReader br = new BufferedReader(new FileReader(f));
+		File k26_file = new File(k26_filePath);
+		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_file));
 		
-		String readTxt;
-		int lineCnt = 0;
-		int n = -1;
-		StringBuffer s = new StringBuffer();
+		String k26_readTxt;
+		int k26_lineCnt = 0;
+		int k26_escapeCondition = -1;
+		StringBuffer k26_stringBuffer = new StringBuffer();
 		while(true) {
-			char[] ch = new char[1000];
+			char[] k26_readCharArray = new char[1000];
 			
-			n = br.read(ch);
+			k26_escapeCondition = k26_bufferedReader.read(k26_readCharArray);
 			
-			if(n == -1) break;
+			if(k26_escapeCondition == -1) break;
 			
-			for(char c : ch) {
-				if(c == '\n') {
-					System.out.printf("[%s]***\n", s.toString());
-					s.delete(0, s.length());
+			for(char k26_charData : k26_readCharArray) {
+				if(k26_charData == '\n') {
+					System.out.printf("[%s]***\n", k26_stringBuffer.toString());
+					k26_stringBuffer.delete(0, k26_stringBuffer.length());
 				} else {
-					s.append(c);
+					k26_stringBuffer.append(k26_charData);
 				}
 			}
-			lineCnt++;
+			k26_lineCnt++;
 		}
-		System.out.printf("[%s]***\n", s.toString());
-		br.close();
+		System.out.printf("[%s]***\n", k26_stringBuffer.toString());
+		k26_bufferedReader.close();
 	}
 }

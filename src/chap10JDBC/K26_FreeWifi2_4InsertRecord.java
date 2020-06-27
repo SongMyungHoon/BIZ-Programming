@@ -178,10 +178,8 @@ public class K26_FreeWifi2_4InsertRecord {
 		return k26_intCnt;
 	}	// k26_getCharCount method end
 	
-	/*
-	 * inst_date을 String type으로 받아서 MySQL의 date type으로 insert 할 수 있는
-	 * date으로 parsing하고 다시 yyyy-MM-dd 형태의 String으로 변환해 return하는 method
-	 */
+	/* inst_date을 String type으로 받아서 MySQL의 date type으로 insert 할 수 있는
+	 * date으로 parsing하고 다시 yyyy-MM-dd 형태의 String으로 변환해 return하는 method */
 	static String k26_dateFormating(String k26_strParam) throws ParseException {
 		// date가 yy format인 SimpleDateFormat class의 instance인 k26_simpleDateFormatYY 생성 
 		SimpleDateFormat k26_simpleDateFormatYY = new SimpleDateFormat("yy");

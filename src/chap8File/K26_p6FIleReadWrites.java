@@ -3,37 +3,37 @@ package chap8File;
 import java.io.*;
 
 public class K26_p6FIleReadWrites {
-	static String filePath = "";
+	static String k26_filePath = "";
 	
-	public static void FileWrite() throws IOException {
+	public static void k26_fileWrite() throws IOException {
 		
-		File f = new File(filePath);
-		BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+		File k26_file = new File(k26_filePath);
+		BufferedWriter k26_bufferedWriter = new BufferedWriter(new FileWriter(k26_file));
 		
-		bw.write("안녕 파일");
+		k26_bufferedWriter.write("안녕 파일");
 		// 다음 줄로 넘겨주는 method, 대신 개행문자를 사용해도 된다.
-		bw.newLine();
-		bw.write("hello 헬로");
+		k26_bufferedWriter.newLine();
+		k26_bufferedWriter.write("hello 헬로");
 		// 다음 줄로 넘겨주는 method, 대신 개행문자를 사용해도 된다.
-		bw.newLine();
+		k26_bufferedWriter.newLine();
 		
-		bw.close();
+		k26_bufferedWriter.close();
 	}
 	
-	public static void FileRead() throws IOException {
-		File f = new File(filePath);
-		BufferedReader br = new BufferedReader(new FileReader(f));
+	public static void k26_fileRead() throws IOException {
+		File k26_file = new File(k26_filePath);
+		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_file));
 		
-		String readTxt;
+		String k26_readTxt;
 		
-		while((readTxt = br.readLine()) != null) {
-			System.out.printf("%s\n", readTxt);
+		while((k26_readTxt = k26_bufferedReader.readLine()) != null) {
+			System.out.printf("%s\n", k26_readTxt);
 		}
 		
-		br.close();
+		k26_bufferedReader.close();
 	}
 	public static void main(String[] args) throws IOException {
-		FileWrite();
-		FileRead();
+		k26_fileWrite();
+		k26_fileRead();
 	}
 }
