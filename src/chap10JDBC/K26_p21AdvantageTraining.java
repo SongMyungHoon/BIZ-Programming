@@ -6,13 +6,45 @@ import java.util.*;
 
 public class K26_p21AdvantageTraining {
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {		
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {		
 		K26_DAO k26_dao = new K26_DAO();
 //		k26_dao.k26_connectDBtest();
 		k26_dao.k26_connectDB();				// k26_dbDAO 객체의 connection 객체 생성
 		k26_dao.k26_setDB();					// k26_dbName과 동일한 이름의 DB를 탐색하고, 없는 경우 DB 생성해 use
-		k26_dao.k26_createTable();
+//		k26_dao.k26_createTable();
+		k26_dao.k26_dataInsert();
 
+	}
+	public static void dataLoad() throws IOException {
+		String k26_readFilePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
+				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
+				+ "THTSKS010H00.dat";
+		File k26_readFile = new File(k26_readFilePath);
+		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_readFile));
+		String k26_readTxt;
+		long start = System.currentTimeMillis();
+		int k26_cnt = 0; int k26_wCnt = 0;
+		while((k26_readTxt = k26_bufferedReader.readLine()) != null) {
+			StringBuffer k26_stringBuffer = new StringBuffer();
+			String[] k26_field = k26_readTxt.split("%_%");
+			if(k26_field.length > 2)
+//				System.out.println(k26_readTxt);
+//			if(k26_field.length > 2 && k26_field[2].replace("^", "").trim().substring(0,1).equals("A")) {
+//				k26_stringBuffer.append(k26_field[0].replace("^", "").trim());
+//				for(int k26_j = 1; k26_j < k26_field.length; k26_j++) {
+//					k26_stringBuffer.append("." + k26_field[k26_j].replace("^", "").trim());
+//				}
+//				k26_wCnt++;
+//				System.out.printf("[%d][%d][%s]\n", k26_cnt, k26_wCnt, k26_stringBuffer.toString());
+//			}
+			k26_cnt++;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("total time taken = " + (end - start) + " ms");
+//		System.out.println("avg total time taken = " + (end - start)/k26_cnt + " ms");
+		k26_bufferedReader.close();
+		
+		System.out.printf("Program End[%d]records\n", k26_cnt);
 	}
 }
 
@@ -59,8 +91,10 @@ class K26_DAO {
 		 * The server time zone value 'KST' is unrecognized or represents more than one time zone.
 		 * 이라는 SQLException이 발생하므로 serverTimezone=UTC 옵션을 부여하여 SQ:Exception 제거
 		 * mysql 계정 : root, 패스워드 : qortjf90*/
-		k26_connection = DriverManager.getConnection("jdbc:mysql://192.168.23.110:33060"
-				+ "/koposw26?serverTimezone=UTC", "root", "qortjf90");
+//		k26_connection = DriverManager.getConnection("jdbc:mysql://192.168.23.110:33060"
+//				+ "/koposw26?serverTimezone=UTC", "root", "qortjf90");
+		k26_connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306"
+				+ "/practice?serverTimezone=UTC", "root", "qortjf90");
 		
 		/* Connection의 createStatement method로 database에 SQL statment를 보낼 Statement instance를 생성
 		 * Parameter가 없는 SQL 문은 일반적으로 Statement object를 사용하여 실행된다.
@@ -90,10 +124,14 @@ class K26_DAO {
 	 * connection 정보를 저장하고 해당 공용 connection을 공유하는 형태로 DAO class 설계
 	 * @return void	 */
 	public void k26_connectDB () {
-		String k26_useDB_SERVER = "jdbc:mysql://192.168.23.110:33060";
+//		String k26_useDB_SERVER = "jdbc:mysql://192.168.23.110:33060";
+//		String k26_useDB_URL_Option = k26_stringBuilder.append("?useUnicode=true&characterEncoding=utf8")
+//					.append("&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true")
+//					.append("&useSSL=false").toString();
+		String k26_useDB_SERVER = "jdbc:mysql://127.0.0.1:3306";
 		String k26_useDB_URL_Option = k26_stringBuilder.append("?useUnicode=true&characterEncoding=utf8")
-					.append("&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true")
-					.append("&useSSL=false").toString();
+				.append("&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true")
+				.append("&useSSL=false").toString();
 
 		k26_stringBuilder.setLength(0);
 		
@@ -109,7 +147,6 @@ class K26_DAO {
 		    System.out.println("ERROR] JDBC Driver load: \n" + k26_Error.getMessage());
 		    k26_Error.printStackTrace();
 		}
-		
 		
 		try {
 			/* DriverManager 클래스의 getConnection 메서드로 VM의 Linux에 앞서 forwarding한 33060 포트로 접근해
@@ -194,105 +231,51 @@ class K26_DAO {
 	public void k26_createTable() {
 		String createTableQuery 
 			= k26_stringBuilder.append("create table if not exists ").append(k26_tableName).append("(")
-							   .append("stnd_iscd VARCHAR(20),")
-							   .append("bsop_date INT,")
-							   .append("shrn_iscd VARCHAR(20),")
-							   .append("stck_prpr INT,")
-							   .append("stck_oprc INT,")
-							   .append("stck_hgpr INT,")
-							   .append("stck_lwpr INT,")
-							   .append("prdy_vrss_sign VARCHAR(20),")
-							   .append("prdy_vrss INT,")
-							   .append("prdy_ctrt FLOAT,")
-							   .append("prdy_vol BIGINT,")
-							   .append("acml_vol BIGINT,")
-							   .append("acml_tr_pbmn BIGINT,")
-							   .append("askp1 INT,")
-							   .append("bidp1 INT,")
-							   .append("total_askp_rsqn BIGINT,")
-							   .append("total_bidp_rsqn BIGINT,")
-							   .append("seln_cntg_smtn BIGINT,")
-							   .append("shnu_cntg_smtn BIGINT,")
-							   .append("seln_tr_pbmn BIGINT,")
-							   .append("shnu_tr_pbmn BIGINT,")
-							   .append("seln_cntg_csnu INT,")
-							   .append("shnu_cntg_csnu INT,")
-							   .append("w52_hgpr INT,")
-							   .append("w52_lwpr INT,")
-							   .append("w52_hgpr_date INT,")
-							   .append("w52_lwpr_date INT,")
-							   .append("ovtm_untp_bsop_hour INT,")
-							   .append("ovtm_untp_prpr INT,")
-							   .append("ovtm_untp_prdy_vrss INT,")
-							   .append("ovtm_untp_prdy_vrss_sign VARCHAR(20),")
-							   .append("ovtm_untp_askp1 INT,")
-							   .append("ovtm_untp_bidp1 INT,")
-							   .append("ovtm_untp_vol BIGINT,")
-							   .append("ovtm_untp_tr_pbmn BIGINT,")
-							   .append("ovtm_untp_oprc INT,")
-							   .append("ovtm_untp_hgpr INT,")
-							   .append("ovtm_untp_lwpr INT,")
-							   .append("mkob_otcp_vol BIGINT,")
-							   .append("mkob_otcp_tr_pbmn BIGINT,")
-							   .append("mkfa_otcp_vol BIGINT,")
-							   .append("mkfa_otcp_tr_pbmn BIGINT,")
-							   .append("mrkt_div_cls_code VARCHAR(20),")
-							   .append("pstc_dvdn_amt BIGINT,")
-							   .append("lstn_stcn BIGINT,")
-							   .append("stck_sdpr INT,")
-							   .append("stck_fcam FLOAT,")
-							   .append("wghn_avrg_stck_prc DOUBLE,")
-							   .append("issu_limt_rate FLOAT,")
-							   .append("frgn_limt_qty BIGINT,")
-							   .append("oder_able_qty BIGINT,")
-							   .append("frgn_limt_exhs_cls_code VARCHAR(20),")
-							   .append("frgn_hldn_qty BIGINT,")
-							   .append("frgn_hldn_rate FLOAT,")
-							   .append("hts_frgn_ehrt FLOAT,")
-							   .append("itmt_last_nav FLOAT,")
-							   .append("prdy_last_nav FLOAT,")
-							   .append("trc_errt FLOAT,")
-							   .append("dprt FLOAT,")
-							   .append("ssts_cntg_qty BIGINT,")
-							   .append("ssts_tr_pbmn BIGINT,")
-							   .append("frgn_ntby_qty BIGINT,")
-							   .append("flng_cls_code VARCHAR(20),")
-							   .append("prtt_rate FLOAT,")
-							   .append("acml_prtt_rate FLOAT,")
-							   .append("stdv FLOAT,")
-							   .append("beta_cfcn FLOAT,")
-							   .append("crlt_cfcn FLOAT,")
-							   .append("bull_beta FLOAT,")
-							   .append("bear_beta FLOAT,")
-							   .append("bull_dvtn FLOAT,")
-							   .append("bear_dvtn FLOAT,")
-							   .append("bull_crlt FLOAT,")
-							   .append("bear_crlt FLOAT,")
-							   .append("stck_mxpr INT,")
-							   .append("stck_llam INT,")
-							   .append("icic_cls_code VARCHAR(20),")
-							   .append("itmt_vol BIGINT,")
-							   .append("itmt_tr_pbmn BIGINT,")
-							   .append("fcam_mod_cls_code VARCHAR(20),")
-							   .append("revl_issu_reas_code VARCHAR(20),")
-							   .append("orgn_ntby_qty BIGINT,")
-							   .append("adj_prpr INT,")
-							   .append("fn_oprc INT,")
-							   .append("fn_hgpr INT,")
-							   .append("fn_lwpr INT,")
-							   .append("fn_prpr INT,")
-							   .append("fn_acml_vol BIGINT,")
-							   .append("fn_acml_tr_pbmn BIGINT,")
-							   .append("fn_prtt_rate FLOAT,")
-							   .append("fn_flng_cls_code VARCHAR(20),")
-							   .append("buyin_nor_prpr INT,")
-							   .append("buyin_nor_prdy_vrss INT,")
-							   .append("buyin_nor_vol BIGINT,")
-							   .append("buyin_nor_tr_pbmn BIGINT,")
-							   .append("buyin_tod_prpr INT,")
-							   .append("buyin_tod_prdy_vrss INT,")
-							   .append("buyin_tod_vol BIGINT,")
-							   .append("buyin_tod_tr_pbmn BIGINT);").toString();
+							   .append("stnd_iscd VARCHAR(20),").append("bsop_date INT,")
+							   .append("shrn_iscd VARCHAR(20),").append("stck_prpr INT,")
+							   .append("stck_oprc INT,").append("stck_hgpr INT,").append("stck_lwpr INT,")
+							   .append("prdy_vrss_sign VARCHAR(20),").append("prdy_vrss INT,")
+							   .append("prdy_ctrt FLOAT,").append("prdy_vol BIGINT,").append("acml_vol BIGINT,")
+							   .append("acml_tr_pbmn BIGINT,").append("askp1 INT,").append("bidp1 INT,")
+							   .append("total_askp_rsqn BIGINT,").append("total_bidp_rsqn BIGINT,")
+							   .append("seln_cntg_smtn BIGINT,").append("shnu_cntg_smtn BIGINT,")
+							   .append("seln_tr_pbmn BIGINT,").append("shnu_tr_pbmn BIGINT,")
+							   .append("seln_cntg_csnu INT,").append("shnu_cntg_csnu INT,")
+							   .append("w52_hgpr INT,").append("w52_lwpr INT,")
+							   .append("w52_hgpr_date INT,").append("w52_lwpr_date INT,")
+							   .append("ovtm_untp_bsop_hour INT,").append("ovtm_untp_prpr INT,")
+							   .append("ovtm_untp_prdy_vrss INT,").append("ovtm_untp_prdy_vrss_sign VARCHAR(20),")
+							   .append("ovtm_untp_askp1 INT,").append("ovtm_untp_bidp1 INT,")
+							   .append("ovtm_untp_vol BIGINT,").append("ovtm_untp_tr_pbmn BIGINT,")
+							   .append("ovtm_untp_oprc INT,").append("ovtm_untp_hgpr INT,")
+							   .append("ovtm_untp_lwpr INT,").append("mkob_otcp_vol BIGINT,")
+							   .append("mkob_otcp_tr_pbmn BIGINT,").append("mkfa_otcp_vol BIGINT,")
+							   .append("mkfa_otcp_tr_pbmn BIGINT,").append("mrkt_div_cls_code VARCHAR(20),")
+							   .append("pstc_dvdn_amt BIGINT,").append("lstn_stcn BIGINT,")
+							   .append("stck_sdpr INT,").append("stck_fcam FLOAT,").append("wghn_avrg_stck_prc DOUBLE,")
+							   .append("issu_limt_rate FLOAT,").append("frgn_limt_qty BIGINT,")
+							   .append("oder_able_qty BIGINT,").append("frgn_limt_exhs_cls_code VARCHAR(20),")
+							   .append("frgn_hldn_qty BIGINT,").append("frgn_hldn_rate FLOAT,")
+							   .append("hts_frgn_ehrt FLOAT,").append("itmt_last_nav FLOAT,")
+							   .append("prdy_last_nav FLOAT,").append("trc_errt FLOAT,")
+							   .append("dprt FLOAT,").append("ssts_cntg_qty BIGINT,").append("ssts_tr_pbmn BIGINT,")
+							   .append("frgn_ntby_qty BIGINT,").append("flng_cls_code VARCHAR(20),")
+							   .append("prtt_rate FLOAT,").append("acml_prtt_rate FLOAT,")
+							   .append("stdv FLOAT,").append("beta_cfcn FLOAT,").append("crlt_cfcn FLOAT,")
+							   .append("bull_beta FLOAT,").append("bear_beta FLOAT,").append("bull_dvtn FLOAT,")
+							   .append("bear_dvtn FLOAT,").append("bull_crlt FLOAT,").append("bear_crlt FLOAT,")
+							   .append("stck_mxpr INT,").append("stck_llam INT,").append("icic_cls_code VARCHAR(20),")
+							   .append("itmt_vol BIGINT,").append("itmt_tr_pbmn BIGINT,")
+							   .append("fcam_mod_cls_code VARCHAR(20),").append("revl_issu_reas_code VARCHAR(20),")
+							   .append("orgn_ntby_qty BIGINT,").append("adj_prpr INT,").append("fn_oprc INT,")
+							   .append("fn_hgpr INT,").append("fn_lwpr INT,").append("fn_prpr INT,")
+							   .append("fn_acml_vol BIGINT,").append("fn_acml_tr_pbmn BIGINT,")
+							   .append("fn_prtt_rate FLOAT,").append("fn_flng_cls_code VARCHAR(20),")
+							   .append("buyin_nor_prpr INT,").append("buyin_nor_prdy_vrss INT,")
+							   .append("buyin_nor_vol BIGINT,").append("buyin_nor_tr_pbmn BIGINT,")
+							   .append("buyin_tod_prpr INT,").append("buyin_tod_prdy_vrss INT,")
+							   .append("buyin_tod_vol BIGINT,").append("buyin_tod_tr_pbmn BIGINT,")
+							   .append("PRIMARY KEY(stnd_iscd, bsop_date));").toString();
 		k26_stringBuilder.setLength(0);
 		/* Connection의 createStatement method로 database에 SQL statment를 보낼 Statement instance를 생성
 		 * Parameter가 없는 SQL 문은 일반적으로 Statement object를 사용하여 실행된다. */	 	
@@ -387,11 +370,202 @@ class K26_DAO {
 	}
 	
 	public void k26_dataInsert() throws SQLException, IOException {
+		PreparedStatement k26_preStatement = null;
+		ResultSet k26_resultSet = null;
+		String k26_readFilePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
+				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
+				+ "THTSKS010H00.dat";
+		File k26_readFile = new File(k26_readFilePath);
+		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_readFile));
+		String k26_readTxt;
+		int k26_cnt = 0; int k26_wCnt = 0;
+		
 		/* Connection의 createStatement method로 database에 SQL statement를 보낼 Statement instance를 생성
 		 * Parameter가 없는 SQL 문은 일반적으로 Statement object를 사용하여 실행된다. */
-		Statement k26_statement = k26_connection.createStatement();
+		k26_connection.setAutoCommit(false);
+		String k26_insertQuery = k26_stringBuilder.append("insert into ").append(k26_tableName).append("(")
+				   .append("stnd_iscd,bsop_date, shrn_iscd,stck_prpr,stck_oprc,stck_hgpr,stck_lwpr,prdy_vrss_sign,")
+				   .append("prdy_vrss,prdy_ctrt,prdy_vol,acml_vol,acml_tr_pbmn,askp1,bidp1,total_askp_rsqn,total_bidp_rsqn,")
+				   .append("seln_cntg_smtn,shnu_cntg_smtn,seln_tr_pbmn,shnu_tr_pbmn,seln_cntg_csnu,shnu_cntg_csnu,w52_hgpr,")
+				   .append("w52_lwpr,w52_hgpr_date,w52_lwpr_date,ovtm_untp_bsop_hour,ovtm_untp_prpr,ovtm_untp_prdy_vrss,")
+				   .append("ovtm_untp_prdy_vrss_sign,ovtm_untp_askp1,ovtm_untp_bidp1,ovtm_untp_vol,ovtm_untp_tr_pbmn,")
+				   .append("ovtm_untp_oprc,ovtm_untp_hgpr,ovtm_untp_lwpr,mkob_otcp_vol,mkob_otcp_tr_pbmn,mkfa_otcp_vol,")
+				   .append("mkfa_otcp_tr_pbmn,mrkt_div_cls_code,pstc_dvdn_amt,lstn_stcn,stck_sdpr,stck_fcam,wghn_avrg_stck_prc,")
+				   .append("issu_limt_rate,frgn_limt_qty,oder_able_qty,frgn_limt_exhs_cls_code,frgn_hldn_qty,frgn_hldn_rate,")
+				   .append("hts_frgn_ehrt,itmt_last_nav,prdy_last_nav,trc_errt,dprt,ssts_cntg_qty,ssts_tr_pbmn,frgn_ntby_qty,")
+				   .append("flng_cls_code,prtt_rate,acml_prtt_rate,stdv,beta_cfcn,crlt_cfcn,bull_beta,bear_beta,bull_dvtn,")
+				   .append("bear_dvtn,bull_crlt,bear_crlt,stck_mxpr,stck_llam,icic_cls_code,itmt_vol,itmt_tr_pbmn,")
+				   .append("fcam_mod_cls_code,revl_issu_reas_code,orgn_ntby_qty,adj_prpr,fn_oprc,fn_hgpr,fn_lwpr,")
+				   .append("fn_prpr,fn_acml_vol,fn_acml_tr_pbmn,fn_prtt_rate,fn_flng_cls_code,buyin_nor_prpr,buyin_nor_prdy_vrss,")
+				   .append("buyin_nor_vol,buyin_nor_tr_pbmn,buyin_tod_prpr,buyin_tod_prdy_vrss,buyin_tod_vol,buyin_tod_tr_pbmn)")
+				   .append("values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,")
+				   .append("?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);")
+				   .toString();
+		k26_preStatement = k26_connection.prepareStatement(k26_insertQuery);
+		long start = System.currentTimeMillis();
+		
+		while((k26_readTxt = k26_bufferedReader.readLine()) != null) {
+			StringBuffer k26_stringBuffer = new StringBuffer();
+			String[] k26_field = k26_readTxt.split("%_%");
+			
+			long startInternal = System.currentTimeMillis();
+			if(k26_field.length > 2) {
+//				System.out.println(k26_readTxt);
+				k26_field[2] = k26_field[2].replace("^", "").trim();
+//				for(int i = 0; i < k26_field.length; i++) {
+//					k26_preStatement.setString(i + 1, k26_field[i].replace("^", ""));
+//				}
+				for(int i = 0; i < k26_field.length; i++) {
+					k26_field[i] = k26_field[i].replace("^", "");
+//					System.out.println(k26_field[i]);
+					if(k26_field[i].isEmpty()) {
+						System.out.printf("field[%d] is Empty\n",i);
+						k26_field[i] = "0";
+					}
+//					System.out.println("for loop i = " + i);
+				}
+//				for(int i = 0; i < k26_field.length; i++) {
+//					k26_preStatement.setString(i + 1, k26_field[i].replace("^", ""));
+//				}
+				
+				k26_preStatement.setString(1, k26_field[0]);				// stnd_iscd VARCHAR(20)
+				k26_preStatement.setInt(2, Integer.parseInt(k26_field[1]));	// bsop_date INT
+				k26_preStatement.setString(3, k26_field[2]);				// shrn_iscd VARCHAR(20)
+				k26_preStatement.setInt(4, Integer.parseInt(k26_field[3]));	// stck_prpr INT
+				k26_preStatement.setInt(5, Integer.parseInt(k26_field[4]));	// stck_oprc INT
+				k26_preStatement.setInt(6, Integer.parseInt(k26_field[5]));	// stck_hgpr INT
+				k26_preStatement.setInt(7, Integer.parseInt(k26_field[6]));	// stck_lwpr INT
+				k26_preStatement.setString(8, k26_field[7]);				// prdy_vrss_sign VARCHAR(20)
+				k26_preStatement.setInt(9, Integer.parseInt(k26_field[8]));	// prdy_vrss INT
+				k26_preStatement.setFloat(10, Float.parseFloat(k26_field[9]));	// prdy_ctrt FLOAT
+				k26_preStatement.setLong(11, Long.parseLong(k26_field[10]));	// prdy_vol BIGINT
+				k26_preStatement.setLong(12, Long.parseLong(k26_field[11]));	// acml_vol BIGINT
+				k26_preStatement.setLong(13, Long.parseLong(k26_field[12]));	// acml_tr_pbmn BIGINT
+				k26_preStatement.setInt(14, Integer.parseInt(k26_field[13]));	// askp1 INT
+				k26_preStatement.setInt(15, Integer.parseInt(k26_field[14]));	// bidp1 INT
+				k26_preStatement.setLong(16, Long.parseLong(k26_field[15]));	// total_askp_rsqn BIGINT
+				k26_preStatement.setLong(17, Long.parseLong(k26_field[16]));	// total_bidp_rsqn BIGINT
+				k26_preStatement.setLong(18, Long.parseLong(k26_field[17]));	// seln_cntg_smtn BIGINT
+				k26_preStatement.setLong(19, Long.parseLong(k26_field[18]));	// shnu_cntg_smtn BIGINT
+				k26_preStatement.setLong(20, Long.parseLong(k26_field[19]));	// seln_tr_pbmn BIGINT
+				k26_preStatement.setLong(21, Long.parseLong(k26_field[20]));	// shnu_tr_pbmn BIGINT
+				k26_preStatement.setInt(22, Integer.parseInt(k26_field[21]));	// seln_cntg_csnu INT
+				k26_preStatement.setInt(23, Integer.parseInt(k26_field[22]));	// shnu_cntg_csnu INT
+				k26_preStatement.setInt(24, Integer.parseInt(k26_field[23]));	// w52_hgpr INT
+				k26_preStatement.setInt(25, Integer.parseInt(k26_field[24]));	// w52_lwpr INT
+				k26_preStatement.setInt(26, Integer.parseInt(k26_field[25]));	// w52_hgpr_date INT
+				k26_preStatement.setInt(27, Integer.parseInt(k26_field[26]));	// w52_lwpr_date INT
+				k26_preStatement.setInt(28, Integer.parseInt(k26_field[27]));	// ovtm_untp_bsop_hour INT 
+				k26_preStatement.setInt(29, Integer.parseInt(k26_field[28]));	// ovtm_untp_prpr INT 
+				k26_preStatement.setInt(30, Integer.parseInt(k26_field[29]));	// ovtm_untp_prdy_vrss INT  
+				k26_preStatement.setString(31, k26_field[30]);	// ovtm_untp_prdy_vrss_sign VARCHAR(20)  
+				k26_preStatement.setInt(32, Integer.parseInt(k26_field[31]));	// ovtm_untp_askp1 INT  
+				k26_preStatement.setInt(33, Integer.parseInt(k26_field[32]));	// ovtm_untp_bidp1 INT  
+				k26_preStatement.setLong(34, Long.parseLong(k26_field[33]));	// ovtm_untp_vol BIGINT
+				k26_preStatement.setLong(35, Long.parseLong(k26_field[34]));	// ovtm_untp_tr_pbmn BIGINT
+				k26_preStatement.setInt(36, Integer.parseInt(k26_field[35]));	// ovtm_untp_oprc INT
+				k26_preStatement.setInt(37, Integer.parseInt(k26_field[36]));	// ovtm_untp_hgpr INT
+				k26_preStatement.setInt(38, Integer.parseInt(k26_field[37]));	// ovtm_untp_lwpr INT
+				k26_preStatement.setLong(39, Long.parseLong(k26_field[38]));	// mkob_otcp_vol BIGINT
+				k26_preStatement.setLong(40, Long.parseLong(k26_field[39]));	// mkob_otcp_tr_pbmn BIGINT
+				k26_preStatement.setLong(41, Long.parseLong(k26_field[40]));	// mkfa_otcp_vol BIGINT
+				k26_preStatement.setLong(42, Long.parseLong(k26_field[41]));	// mkfa_otcp_tr_pbmn BIGINT
+				k26_preStatement.setString(43, k26_field[42]);	// mrkt_div_cls_code VARCHAR(20)
+				k26_preStatement.setLong(44, Long.parseLong(k26_field[43]));	// pstc_dvdn_amt BIGINT
+				k26_preStatement.setLong(45, Long.parseLong(k26_field[44]));	// lstn_stcn BIGINT
+				k26_preStatement.setInt(46, Integer.parseInt(k26_field[45]));	// stck_sdpr INT
+				k26_preStatement.setFloat(47, Float.parseFloat(k26_field[46]));	// stck_fcam FLOAT
+				k26_preStatement.setDouble(48, Double.parseDouble(k26_field[47]));	// wghn_avrg_stck_prc DOUBLE
+				k26_preStatement.setFloat(49, Float.parseFloat(k26_field[48]));	// issu_limt_rate FLOAT
+				k26_preStatement.setLong(50, Long.parseLong(k26_field[49]));	// frgn_limt_qty BIGINT
+				k26_preStatement.setLong(51, Long.parseLong(k26_field[50]));	// oder_able_qty BIGINT
+				k26_preStatement.setString(52, k26_field[51]);	// frgn_limt_exhs_cls_code VARCHAR(20)
+				k26_preStatement.setLong(53, Long.parseLong(k26_field[52]));	// frgn_hldn_qty BIGINT
+				k26_preStatement.setFloat(54, Float.parseFloat(k26_field[53]));	// frgn_hldn_rate FLOAT
+				k26_preStatement.setFloat(55, Float.parseFloat(k26_field[54]));	// hts_frgn_ehrt FLOAT
+				k26_preStatement.setFloat(56, Float.parseFloat(k26_field[55]));	// itmt_last_nav FLOAT
+				k26_preStatement.setFloat(57, Float.parseFloat(k26_field[56]));	// prdy_last_nav FLOAT
+				k26_preStatement.setFloat(58, Float.parseFloat(k26_field[57]));	// trc_errt FLOAT
+				k26_preStatement.setFloat(59, Float.parseFloat(k26_field[58]));	// dprt FLOAT
+				k26_preStatement.setLong(60, Long.parseLong(k26_field[59]));	// ssts_cntg_qty BIGINT
+				k26_preStatement.setLong(61, Long.parseLong(k26_field[60]));	// ssts_tr_pbmn BIGINT
+				k26_preStatement.setLong(62, Long.parseLong(k26_field[61]));	// frgn_ntby_qty BIGINT
+				k26_preStatement.setString(63, k26_field[62]);	// flng_cls_code VARCHAR(20)
+				k26_preStatement.setFloat(64, Float.parseFloat(k26_field[63]));	// prtt_rate FLOAT
+				k26_preStatement.setFloat(65, Float.parseFloat(k26_field[64]));	// acml_prtt_rate FLOAT
+				k26_preStatement.setFloat(66, Float.parseFloat(k26_field[65]));	// stdv FLOAT
+				k26_preStatement.setFloat(67, Float.parseFloat(k26_field[66]));	// beta_cfcn FLOAT 
+				k26_preStatement.setFloat(68, Float.parseFloat(k26_field[67]));	// crlt_cfcn FLOAT 
+				k26_preStatement.setFloat(69, Float.parseFloat(k26_field[68]));	// bull_beta FLOAT 
+				k26_preStatement.setFloat(70, Float.parseFloat(k26_field[69]));	// bear_beta FLOAT  
+				k26_preStatement.setFloat(71, Float.parseFloat(k26_field[70]));	// bull_dvtn FLOAT  
+				k26_preStatement.setFloat(72, Float.parseFloat(k26_field[71]));	// bear_dvtn FLOAT  
+				k26_preStatement.setFloat(73, Float.parseFloat(k26_field[72]));	// bull_crlt FLOAT  
+				k26_preStatement.setFloat(74, Float.parseFloat(k26_field[73]));	// bear_crlt FLOAT  
+				k26_preStatement.setInt(75, Integer.parseInt(k26_field[74]));	// stck_mxpr INT
+				k26_preStatement.setInt(76, Integer.parseInt(k26_field[75]));	// stck_llam INT
+				k26_preStatement.setString(77, k26_field[76]);	// icic_cls_code VARCHAR(20)
+				k26_preStatement.setLong(78, Long.parseLong(k26_field[77]));	// itmt_vol BIGINT
+				k26_preStatement.setLong(79, Long.parseLong(k26_field[78]));	// itmt_tr_pbmn BIGINT
+				k26_preStatement.setLong(80, Long.parseLong(k26_field[79]));	// fcam_mod_cls_code VARCHAR(20)
+				k26_preStatement.setLong(81, Long.parseLong(k26_field[80]));	// revl_issu_reas_code VARCHAR(20)
+				k26_preStatement.setLong(82, Long.parseLong(k26_field[81]));	// orgn_ntby_qty BIGINT
+				k26_preStatement.setInt(83, Integer.parseInt(k26_field[82]));	// adj_prpr INT
+				k26_preStatement.setInt(84, Integer.parseInt(k26_field[83]));	// fn_oprc INT
+				k26_preStatement.setInt(85, Integer.parseInt(k26_field[84]));	// fn_hgpr INT
+				k26_preStatement.setInt(86, Integer.parseInt(k26_field[85]));	// fn_lwpr INT
+				k26_preStatement.setInt(87, Integer.parseInt(k26_field[86]));	// fn_prpr INT
+				k26_preStatement.setLong(88, Long.parseLong(k26_field[87]));	// fn_acml_vol BIGINT
+				k26_preStatement.setLong(89, Long.parseLong(k26_field[88]));	// fn_acml_tr_pbmn BIGINT
+				k26_preStatement.setInt(90, Integer.parseInt(k26_field[89]));	// fn_prtt_rate FLOAT
+				k26_preStatement.setString(91, k26_field[90]);	// fn_flng_cls_code VARCHAR(20)
+				k26_preStatement.setInt(92, Integer.parseInt(k26_field[91]));	// buyin_nor_prpr INT
+				k26_preStatement.setInt(93, Integer.parseInt(k26_field[92]));	// buyin_nor_prdy_vrss INT
+				k26_preStatement.setLong(94, Long.parseLong(k26_field[93]));	// buyin_nor_vol BIGINT
+				k26_preStatement.setLong(95, Long.parseLong(k26_field[94]));	// buyin_nor_tr_pbmn BIGINT
+				k26_preStatement.setInt(96, Integer.parseInt(k26_field[95]));	// buyin_tod_prpr INT
+				k26_preStatement.setInt(97, Integer.parseInt(k26_field[96]));	// buyin_tod_prdy_vrss INT
+				k26_preStatement.setLong(98, Long.parseLong(k26_field[97]));	// buyin_tod_vol BIGINT
+				k26_preStatement.setLong(99, Long.parseLong(k26_field[98]));	// buyin_tod_tr_pbmn BIGINT
+				k26_preStatement.addBatch();
+				k26_preStatement.clearParameters();
+				int[] inserted = k26_preStatement.executeBatch();
+				k26_connection.commit();
+				k26_cnt++;
+			}			
+			if(k26_cnt % 3000 == 0 && k26_cnt != 0) {
+				k26_wCnt++;
+				System.out.println("현재 진행상황 : " + k26_wCnt*3000);
+				System.out.println("걸린 시간 : " + (System.currentTimeMillis() - startInternal) + " ms");
+			}
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("total time taken = " + (end - start) + " ms");
+//		System.out.println("avg total time taken = " + (end - start)/k26_cnt + " ms");
+		k26_bufferedReader.close();
+		
+		System.out.printf("Program End[%d]records\n", k26_cnt);
+		
+		
+//		/**
+//	     * Executes the SQL query in this PreparedStatement object
+//	     * and returns the ResultSet object generated by the query.
+//	     *
+//	     * @return a ResultSet object that contains the data produced by the query;
+//	     * 		   never null
+//	     * @exception SQLException if a database access error occurs;
+//	     * this method is called on a closed PreparedStatement
+//		 * or the SQL statement does not return a ResultSet object
+//	     * @throws 
+//	     * SQLTimeoutException when the driver has determined that
+//		 * the timeout value that was specified by the setQueryTimeout method
+//		 * has been exceeded and has at least attempted to cancel
+//	     * the currently running Statement */
+//		k26_resultSet = k26_preStatement.executeQuery();
 	}
 	
+	
+}	
 //	public List<K26_Item> k26_itemDataLoadQuery (String k26_query) {
 //	List<K26_Item> k26_result = new ArrayList<>();
 //	Statement k26_statement = null;
@@ -448,7 +622,7 @@ class K26_DAO {
 //	}	// end try
 //	return k26_result;
 //}
-}
+
 //class K26_StockData {
 //	String stnd_iscd;
 //	int bsop_date;

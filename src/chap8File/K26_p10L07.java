@@ -29,7 +29,7 @@ public class K26_p10L07 {
 			
 			for(char k26_charData : k26_readCharArray) {
 				if(k26_charData == '\n') {
-					System.out.printf("[%s]***\n", k26_stringBuffer.toString());
+//					System.out.printf("[%s]***\n", k26_stringBuffer.toString());
 					k26_stringBuffer.delete(0, k26_stringBuffer.length());
 				} else {
 					k26_stringBuffer.append(k26_charData);
