@@ -403,30 +403,18 @@ class K26_DAO {
 				   .toString();
 		k26_preStatement = k26_connection.prepareStatement(k26_insertQuery);
 		long start = System.currentTimeMillis();
-		
+		long startInternal = System.currentTimeMillis();
 		while((k26_readTxt = k26_bufferedReader.readLine()) != null) {
-			StringBuffer k26_stringBuffer = new StringBuffer();
 			String[] k26_field = k26_readTxt.split("%_%");
 			
-			long startInternal = System.currentTimeMillis();
 			if(k26_field.length > 2) {
-//				System.out.println(k26_readTxt);
 				k26_field[2] = k26_field[2].replace("^", "").trim();
-//				for(int i = 0; i < k26_field.length; i++) {
-//					k26_preStatement.setString(i + 1, k26_field[i].replace("^", ""));
-//				}
 				for(int i = 0; i < k26_field.length; i++) {
 					k26_field[i] = k26_field[i].replace("^", "");
-//					System.out.println(k26_field[i]);
 					if(k26_field[i].isEmpty()) {
-						System.out.printf("field[%d] is Empty\n",i);
 						k26_field[i] = "0";
 					}
-//					System.out.println("for loop i = " + i);
 				}
-//				for(int i = 0; i < k26_field.length; i++) {
-//					k26_preStatement.setString(i + 1, k26_field[i].replace("^", ""));
-//				}
 				
 				k26_preStatement.setString(1, k26_field[0]);				// stnd_iscd VARCHAR(20)
 				k26_preStatement.setInt(2, Integer.parseInt(k26_field[1]));	// bsop_date INT
@@ -529,19 +517,22 @@ class K26_DAO {
 				k26_preStatement.setLong(99, Long.parseLong(k26_field[98]));	// buyin_tod_tr_pbmn BIGINT
 				k26_preStatement.addBatch();
 				k26_preStatement.clearParameters();
-				int[] inserted = k26_preStatement.executeBatch();
-				k26_connection.commit();
+//				int[] inserted = k26_preStatement.executeBatch();
+//				k26_connection.commit();
 				k26_cnt++;
+				if(k26_cnt % 100000 == 0 && k26_cnt != 0) {
+					int[] inserted = k26_preStatement.executeBatch();
+					k26_connection.commit();
+					k26_wCnt++;
+					System.out.println("현재 진행상황 : " + k26_cnt);
+					System.out.println("걸린 시간 : " + ((System.currentTimeMillis() - startInternal)/1000) + " s");
+					startInternal = System.currentTimeMillis();
+				}
 			}			
-			if(k26_cnt % 3000 == 0 && k26_cnt != 0) {
-				k26_wCnt++;
-				System.out.println("현재 진행상황 : " + k26_wCnt*3000);
-				System.out.println("걸린 시간 : " + (System.currentTimeMillis() - startInternal) + " ms");
-			}
 		}
 		long end = System.currentTimeMillis();
 		System.out.println("total time taken = " + (end - start) + " ms");
-//		System.out.println("avg total time taken = " + (end - start)/k26_cnt + " ms");
+		System.out.println("avg total time taken = " + (end - start)/k26_cnt + " ms");
 		k26_bufferedReader.close();
 		
 		System.out.printf("Program End[%d]records\n", k26_cnt);
