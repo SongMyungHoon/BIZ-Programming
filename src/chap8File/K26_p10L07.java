@@ -5,9 +5,13 @@ import java.io.*;
 public class K26_p10L07 {
 
 	public static void main(String[] args) throws IOException {
-		String k26_filePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
-				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
+//		String k26_filePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
+//				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
+//				+ "THTSKS010H00.dat";
+		String k26_filePath = "C:\\Users\\MHSong\\OneDrive\\Documents\\Developer\\"
+				+ "HighTech\\05 Enterprise Computing\\BIZ프로그래밍기초\\실습데이터\\day_data\\"
 				+ "THTSKS010H00.dat";
+		
 		File k26_file = new File(k26_filePath);
 		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_file));
 		
@@ -15,6 +19,7 @@ public class K26_p10L07 {
 		int k26_lineCnt = 0;
 		int k26_escapeCondition = -1;
 		StringBuffer k26_stringBuffer = new StringBuffer();
+		long start = System.currentTimeMillis();
 		while(true) {
 			char[] k26_readCharArray = new char[1000];
 			
@@ -33,6 +38,9 @@ public class K26_p10L07 {
 			k26_lineCnt++;
 		}
 		System.out.printf("[%s]***\n", k26_stringBuffer.toString());
+		long end = System.currentTimeMillis();
+		System.out.println("total time taken = " + (end - start) + " ms");
+		System.out.println("avg total time taken = " + (end - start)/k26_lineCnt + " ms");
 		k26_bufferedReader.close();
 	}
 }
