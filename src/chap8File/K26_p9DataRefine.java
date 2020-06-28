@@ -17,14 +17,14 @@ public class K26_p9DataRefine {
 		
 //		k26_serviceProviderExtraction(k26_originFilePath);
 		String k26_SKTfilePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
-				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\"
-				+ "Assignment\\FreeWifiData\\전국무료와이파이표준데이터_SKT.txt";
+				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\Assignment\\FreeWifiData\\"
+				+ "전국무료와이파이표준데이터_SKT.txt";
 		String k26_KTfilePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
-				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\"
-				+ "Assignment\\FreeWifiData\\전국무료와이파이표준데이터_KT.txt";
+				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\Assignment\\FreeWifiData\\"
+				+ "전국무료와이파이표준데이터_KT.txt";
 		String k26_LGUfilePath = "E:\\OneDrive\\Documents\\Developer\\HighTech\\"
-				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\"
-				+ "Assignment\\FreeWifiData\\전국무료와이파이표준데이터_LGU.txt";
+				+ "05 Enterprise Computing\\BIZ프로그래밍기초\\Assignment\\FreeWifiData\\"
+				+ "전국무료와이파이표준데이터_LGU.txt";
 //		String k26_SKTfilePath = "C:\\Users\\MHSong\\OneDrive\\Documents\\"
 //				+ "Developer\\HighTech\\05 Enterprise Computing\\BIZ프로그래밍기초\\"
 //				+ "Assignment\\FreeWifiData\\전국무료와이파이표준데이터_SKT.txt";
@@ -56,6 +56,7 @@ public class K26_p9DataRefine {
 		
 		String[] k26_fieldName = k26_readTxt.split(",");
 		String[] k26_field;
+		String serviceProvider = "";
 		int k26_lineCnt = 0;
 		
 		while((k26_readTxt = k26_bufferedReader.readLine()) != null) {
@@ -66,80 +67,95 @@ public class K26_p9DataRefine {
 			
 			// csv 파일이므로 ","를 구분자로 split한 결과는 각 feild의 값에 해당한다.
 			k26_field = k26_readTxt.split(",");
-						
-			if(k26_field[5].trim().contains("SKT")) {
-				System.out.printf("matches SKT [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
+			boolean k26_unknown = true;			
+			serviceProvider = k26_field[5].trim();
+			if(serviceProvider.contains("SKT")) {
+				System.out.printf("matches SKT [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
 				k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
-			} else if(k26_field[5].trim().contains("SK")) {
-				if(k26_field[5].trim().contains("㈜SK텔레콤")) {
-					System.out.printf("matches ㈜SK텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("㈜SK텔레콤", "SKT");
+				k26_unknown = false;
+			} else if(serviceProvider.contains("SK")) {
+				if(serviceProvider.contains("㈜SK텔레콤")) {
+					System.out.printf("matches ㈜SK텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("㈜SK텔레콤", "SKT");
 					k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
-				} else if(k26_field[5].trim().contains("SK텔레콤")) {
-					System.out.printf("matches SK텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("SK텔레콤", "SKT");
+				} else if(serviceProvider.contains("SK텔레콤")) {
+					System.out.printf("matches SK텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("SK텔레콤", "SKT");
 					k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
 				} else {
-					System.out.printf("matches SK [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("SK", "SKT");
+					System.out.printf("matches SK [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("SK", "SKT");
 					k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
 				}
-			} else if(k26_field[5].trim().contains("sk텔레콤")) {
-				System.out.printf("matches sk텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-				k26_field[5].trim().replace("sk텔레콤", "SKT");
+				k26_unknown = false;
+			} else if(serviceProvider.contains("sk텔레콤")) {
+				System.out.printf("matches sk텔레콤 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+				k26_readTxt = serviceProvider.replace("sk텔레콤", "SKT");
 				k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
-			} else if(k26_field[5].trim().contains("KT")) {	
+				k26_unknown = false;
+			}
+			
+			if(serviceProvider.contains("KT")) {	
 				if(k26_field[5].trim().contains("㈜KT")) {
-					System.out.printf("matches ㈜KT [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("㈜KT", "KT");
+					System.out.printf("matches ㈜KT [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("㈜KT", "KT");
 					k26_ktBufferedWriter.write(k26_readTxt);k26_ktBufferedWriter.newLine();
-				} else if(k26_field[5].trim().contains("KT올레")) {
-					System.out.printf("matches KT올레 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("KT올레", "KT");
+				} else if(serviceProvider.contains("KT올레")) {
+					System.out.printf("matches KT올레 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("KT올레", "KT");
 					k26_ktBufferedWriter.write(k26_readTxt);k26_ktBufferedWriter.newLine();
-				} else {
-					System.out.printf("matches KT [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
+				} else if(k26_stringCompare(serviceProvider, "KT")) {
+					System.out.printf("matches KT [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
 					k26_ktBufferedWriter.write(k26_readTxt);k26_ktBufferedWriter.newLine();
-				}
-			} else if(k26_field[5].trim().contains("㈜케이티")) {
-				System.out.printf("matches ㈜케이티 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-				k26_field[5].trim().replace("㈜케이티", "KT");
+				}			
+				k26_unknown = false;
+			} else if(serviceProvider.contains("㈜케이티")) {
+				System.out.printf("matches ㈜케이티 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+				k26_readTxt = serviceProvider.replace("㈜케이티", "KT");
 				k26_ktBufferedWriter.write(k26_readTxt);k26_ktBufferedWriter.newLine();
-			} else if(k26_field[5].trim().contains("LGU+")) {
-				System.out.printf("matches LGU+ [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
+				k26_unknown = false;
+			}
+			
+			if(serviceProvider.contains("LGU+")) {
+				System.out.printf("matches LGU+ [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
 				k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-			} else if(k26_field[5].trim().contains("LG")) {
-				if(k26_field[5].trim().contains("LGT")) {
-					System.out.printf("matches LGT [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("LGT", "LGU+");
+				k26_unknown = false;
+			} else if(serviceProvider.contains("LG")) {
+				if(serviceProvider.contains("LGT")) {
+					System.out.printf("matches LGT [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("LGT", "LGU+");
 					k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-				} else if(k26_field[5].trim().contains("LGU")) {
-					System.out.printf("matches LGU [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("LGU", "LGU+");
+				} else if(serviceProvider.contains("LGU")) {
+					System.out.printf("matches LGU [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("LGU", "LGU+");
 					k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-				} else if(k26_field[5].trim().contains("LG U +")) {
-					System.out.printf("matches LG U + [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("LG U +", "LGU+");
+				} else if(serviceProvider.contains("LG U +")) {
+					System.out.printf("matches LG U + [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("LG U +", "LGU+");
 					k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-				} else if(k26_field[5].trim().contains("LG U+")) {
-					System.out.printf("matches LG U+ [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].trim().replace("LG U+", "LGU+");
+				} else if(serviceProvider.contains("LG U+")) {
+					System.out.printf("matches LG U+ [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("LG U+", "LGU+");
 					k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
 				} else {				
-					System.out.printf("matches LG [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-					k26_field[5].replace("LG", "LGU+");
+					System.out.printf("matches LG [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+					k26_readTxt = serviceProvider.replace("LG", "LGU+");
 					k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
 				}
-			} else if(k26_field[5].trim().contains("Lgu+")) {
-				System.out.printf("matches Lgu+ [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-				k26_field[5].replace("Lgu+", "LGU+");
+				k26_unknown = false;
+			} else if(serviceProvider.contains("Lgu+")) {
+				System.out.printf("matches Lgu+ [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+				k26_readTxt = serviceProvider.replace("Lgu+", "LGU+");
 				k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-			} else if(k26_field[5].trim().contains("(주)엘지유플러스")) {
-				System.out.printf("matches (주)엘지유플러스 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
-				k26_field[5].replace("(주)엘지유플러스", "LGU+");
+				k26_unknown = false;
+			} else if(serviceProvider.contains("(주)엘지유플러스")) {
+				System.out.printf("matches (주)엘지유플러스 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
+				k26_readTxt = serviceProvider.replace("(주)엘지유플러스", "LGU+");
 				k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
-			} else {
-				System.out.printf("알 수 없는 통신사 [%d번째 항목][%s]***\n", k26_lineCnt,k26_field[5]);
+				k26_unknown = false;
+			} 
+			if(k26_unknown) {
+				System.out.printf("알 수 없는 통신사 [%d번째 항목][%s]***\n", k26_lineCnt,serviceProvider);
 			}
 			k26_lineCnt++;
 		}
@@ -206,5 +222,26 @@ public class K26_p9DataRefine {
 			k26_returnStr += k26_strManField[k26_i];
 		}	// for loop end
 		return k26_returnStr;
+	}
+	public static boolean k26_stringCompare(String targetString, String comparedString) {
+		for(int i = 0; i < targetString.length(); i++) {			
+			if(targetString.charAt(i) == comparedString.charAt(0)) {
+				if(i != 0) {
+					if(targetString.charAt(i - 1) != 'S'
+							&&targetString.charAt(i + 1) == 'T') {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					if(targetString.charAt(i + 1) == 'T') {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
