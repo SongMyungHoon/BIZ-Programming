@@ -34,24 +34,43 @@ public class K26_p9DataRefine {
 //		String k26_LGUfilePath = "C:\\Users\\MHSong\\OneDrive\\Documents\\"
 //				+ "Developer\\HighTech\\05 Enterprise Computing\\BIZ프로그래밍기초\\"
 //				+ "Assignment\\FreeWifiData\\전국무료와이파이표준데이터_LGU.txt";
+		// originalFilePath에 위치한 파일(전국무료와이파이표준데이터.csv)을 다루기 위한 File class instance 선언
 		File k26_file = new File(k26_originFilePath);
+		/* 문자 입력 stream에서 문자를 버퍼링하여 문자, 배열 및 행을 효율적으로 
+		 * 읽을 수 잇도록 문자를 버퍼링하는 BufferedReader instance 선언 */
 		BufferedReader k26_bufferedReader = new BufferedReader(new FileReader(k26_file));
-		
+		// raw file 내용 중 service provider에 SKT(유사 글자 포함)가 포함된 내용들을 저장할 파일을 위한 File instance
 		File k26_sktFile = new File(k26_SKTfilePath);
+		// raw file 내용 중 service provider에 KT(유사 글자 포함)가 포함된 내용들을 저장할 파일을 위한 File instance
 		File k26_ktFile = new File(k26_KTfilePath);
+		// raw file 내용 중 service provider에 LGU+(유사 글자 포함)가 포함된 내용들을 저장할 파일을 위한 File instance
 		File k26_lguFile = new File(k26_LGUfilePath);
+		/* service provider에 SKT가 포함된 경우, 해당 record를 따로 구별된 file에 
+		 * 단일 문자, 배열 및 문자열을 효율적으로 기록할 수 있도록 문자를 버퍼링하여 
+		 * 문자 출력 stream에 text 저장할 BufferedWriter instance 선언 */
 		BufferedWriter k26_sktBufferedWriter = new BufferedWriter(new FileWriter(k26_sktFile));
+		/* service provider에 SKT가 포함된 경우, 해당 record를 따로 구별된 file에 
+		 * 단일 문자, 배열 및 문자열을 효율적으로 기록할 수 있도록 문자를 버퍼링하여 
+		 * 문자 출력 stream에 text 저장할 BufferedWriter instance 선언 */
 		BufferedWriter k26_ktBufferedWriter = new BufferedWriter(new FileWriter(k26_ktFile));
+		/* service provider에 SKT가 포함된 경우, 해당 record를 따로 구별된 file에 
+		 * 단일 문자, 배열 및 문자열을 효율적으로 기록할 수 있도록 문자를 버퍼링하여 
+		 * 문자 출력 stream에 text 저장할 BufferedWriter instance 선언 */
 		BufferedWriter k26_lguBUfferedWriter = new BufferedWriter(new FileWriter(k26_lguFile));
-
+		// 읽어들인 파일 내용을 기록할 String 변수 선언
 		String k26_readTxt;
+		// 파일에서 읽어 readTxt에 저장한 String이 null인 경우
 		if((k26_readTxt = k26_bufferedReader.readLine()) == null) {
+			// 빈 파일임을 알리는 문구 출력
 			System.out.printf("빈 파일입니다\n");
+			// method 종료
 			return;
 		}
-		
+		// Header의 내용을 SKT이 포함된 내용이 기록될 파일에 적고 줄 바꿈 수행
 		k26_sktBufferedWriter.write(k26_readTxt);k26_sktBufferedWriter.newLine();
+		// Header의 내용을 KT이 포함된 내용이 기록될 파일에 적고 줄 바꿈 수행
 		k26_ktBufferedWriter.write(k26_readTxt);k26_ktBufferedWriter.newLine();
+		// Header의 내용을 LGU+이 포함된 내용이 기록될 파일에 적고 줄 바꿈 수행
 		k26_lguBUfferedWriter.write(k26_readTxt);k26_lguBUfferedWriter.newLine();
 		
 		String[] k26_fieldName = k26_readTxt.split(",");
@@ -222,7 +241,7 @@ public class K26_p9DataRefine {
 			k26_returnStr += k26_strManField[k26_i];
 		}	// for loop end
 		return k26_returnStr;
-	}
+	}	// k26_commaEliminationInDoubleQuote method end
 	public static boolean k26_stringCompare(String targetString, String comparedString) {
 		for(int i = 0; i < targetString.length(); i++) {			
 			if(targetString.charAt(i) == comparedString.charAt(0)) {
@@ -238,10 +257,10 @@ public class K26_p9DataRefine {
 						return true;
 					} else {
 						return false;
-					}
-				}
-			}
-		}
+					}	// if - else end
+				}	// if - else end
+			}	// if - else end
+		}	// for loop end
 		return false;
-	}
+	}	// k26_stringCompare method end
 }

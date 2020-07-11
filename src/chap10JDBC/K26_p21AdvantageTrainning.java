@@ -4,7 +4,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-public class K26_p21AdvantageTraining {
+public class K26_p21AdvantageTrainning {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {		
 		K26_DAO k26_dao = new K26_DAO();
@@ -527,13 +527,14 @@ class K26_DAO {
 				}				
 				if(k26_cnt % 100000 == 0 && k26_cnt != 0) {
 					int[] inserted = k26_preStatement.executeBatch();
-					k26_connection.commit();
+//					k26_connection.commit();
 					k26_wCnt++;
 					System.out.println("현재 진행상황 : " + k26_cnt);
 					System.out.println("걸린 시간 : " + ((System.currentTimeMillis() - startInternal10)/1000) + " s");
 					startInternal10 = System.currentTimeMillis();
 				}
-			}	// if end			
+			}	// if end
+			k26_connection.commit();
 		}	// while loop end
 //		k26_connection.commit();
 		long end = System.currentTimeMillis();
